@@ -1,0 +1,41 @@
+<ui:composition
+        template="/templates/layout/public/main-layout.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+         xmlns:p="http://primefaces.org/ui">
+
+    
+	<ui:define name="head">
+		<title>Home</title>
+	</ui:define>
+	<ui:define name="header">
+		<h:form id="loginForm">
+			 <div class="jumbotron">
+		        <div class="container">
+		        	<h3><p:outputLabel value="#{indexPage.pageTitle}"/></h3>
+		            <p>This is a template for a simple marketing or informational website. It includes a large callout called a jumbotron and three supporting pieces of content. Use it as a starting point to create something more unique.</p>
+		            <br/><br/>
+		            <p:commandButton value="Log In »" 
+		            				 styleClass="btn btn-primary btn-lg" 
+		            				 action="login.xhtml?faces-redirect=true"/>
+		            <p:dataTable id="schoolsTable" value="#{indexPage.schools}"
+		            			 var="school"
+		            			 reflow="true"
+		            			 rendered="false">
+		            	<p:autoUpdate/>		 
+		            	<p:column headerText="ID">
+							#{school.id}		            	
+		            	</p:column>
+		            	<p:column headerText="Name">
+							#{school.name}		            	
+		            	</p:column>
+		            	<p:column headerText="Address">
+							#{school.address}		            	
+		            	</p:column>
+		            </p:dataTable>
+		        </div>
+		    </div>
+		</h:form>
+	</ui:define>
+</ui:composition>

@@ -1,0 +1,32 @@
+<ui:composition
+        template="/templates/layout/public/main-layout.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+         xmlns:p="http://primefaces.org/ui">
+
+    
+	<ui:define name="head">
+		<title>Error</title>
+	</ui:define>
+	<ui:define name="header">
+		<h:form id="loginForm">
+			 <div class="jumbotron">
+		        <div class="container">
+		        	<h3><h:outputText value="Error"/></h3>
+		            <p>An error occurred.</p>
+					<p>You were on page #{currentViewId}.</p>
+					<br />
+					<h:outputText value="Exception Calss: #{errorHandler.exception}"></h:outputText>
+					<br />
+					<h:outputText value="Error Desscription: #{errorHandler.message}"></h:outputText>
+					<br/>
+					<p:commandButton value="Log In »" 
+		            				 styleClass="btn btn-primary btn-lg" 
+		            				 action="login.xhtml?faces-redirect=true"/>
+		        </div>
+		    </div>
+		</h:form>
+	</ui:define>
+	<ui:define name="content"></ui:define>
+</ui:composition>

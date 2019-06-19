@@ -1,0 +1,42 @@
+<ui:composition
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:p="http://primefaces.org/ui">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+             <div class="container-fluid">
+             
+             <div class="navbar-header">
+                <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <h:link styleClass="navbar-brand" value="#{applicationContext.projectName}" outcome="dashboard" />
+            </div>
+            <div id="navbar" class="navbar-collapse collapse">
+              <h:form id="navBarForm">
+               <ul class="nav navbar-nav">
+				      <li class="active"><h:link value="Dashboard" outcome="dashboard" /></li>
+				       <li><h:link value="My Bills" outcome="mybills" /></li>
+				      <li class="dropdown">
+				      	<a class="dropdown-toggle" data-toggle="dropdown" href="#">Bill Management<span class="caret"></span></a>
+				        <ul class="dropdown-menu">
+				          <li><h:link value="Manage Bill Items" outcome="billmanagement" /></li>
+				          <li><a href="#">Post Payment</a></li>
+				        </ul>
+				      </li>
+				      <li><h:commandLink value="Sign Out" action="#{navigationBean.doSignOff}" /></li>
+				      <!-- <li><a href="#">Page 2</a></li>
+				      <li><a href="#">Page 3</a></li> -->
+				    </ul>
+				</h:form>    
+            </div><!--/.navbar-collapse -->
+			</div> 
+        </div>
+    </nav>
+
+</ui:composition>

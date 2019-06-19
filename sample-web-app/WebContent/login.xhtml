@@ -1,0 +1,40 @@
+<ui:composition
+        template="/templates/layout/public/main-layout.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui">
+	<ui:define name="head">
+		<title>Log In</title>
+	</ui:define>
+	<ui:define name="header">
+		<h:form id="loginForm">
+			 <div class="jumbotron">
+		        <div class="container">
+		        	<p:messages globalOnly="true" showDetail="true" closable="true">
+		        		<p:autoUpdate/>
+		        	</p:messages>
+		            <h3><h:outputText value="#{logInPage.pageTitle}"/></h3>
+		          	<p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank">
+		          		<p:autoUpdate/>
+		          		<p:column>
+		          			<p:inputText id="userNameIT" value="#{logInPage.userName}" required="true"/>
+		          		</p:column>
+		          		<p:column>
+		          			<p:message for="userNameIT"/>
+		          		</p:column>
+		          		<p:column>
+		          			<p:password id="passwordIT" value="#{logInPage.password}" required="true"/>
+		          		</p:column>
+		          		<p:column>
+		          			<p:message for="passwordIT"/>
+		          		</p:column>
+		          		<p:column>
+		          			<p:commandButton value="Log In" action="#{logInPage.onLoginBtnClick}" styleClass="btn btn-primary btn-lg"/>
+		          		</p:column>
+		          	</p:panelGrid>
+		        </div>
+		    </div>
+		</h:form>
+	</ui:define>
+</ui:composition>

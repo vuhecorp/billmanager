@@ -1,0 +1,66 @@
+<ui:composition
+        template="/templates/layout/private/main-layout.xhtml"
+        xmlns="http://www.w3.org/1999/xhtml"
+        xmlns:h="http://java.sun.com/jsf/html"
+        xmlns:ui="http://java.sun.com/jsf/facelets"
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core">
+	<ui:define name="head">
+		<title>#{billManagement.pageTitle}</title>
+	</ui:define>
+	<ui:define name="header">
+		<div class="jumbotron">
+		        <div class="container">
+		          <h3><h:outputText value="#{billManagement.pageTitle}"/></h3>
+		          <div>Manage the items you see on your bill every month.</div>
+		        </div>
+		    </div>
+	</ui:define>
+	<ui:define name="content">
+		 <div class="row">
+	        <div class="col-lg-12 col-md-12 col-sm-12">
+	            <h2>Bill Items</h2>
+	            <p>These are the items which can be added to your bill on a recurring basis.</p>
+	            <p:dataTable id="billItemTemplateTable"
+	            			 styleClass="table table-dark"
+	            			 value="#{billManagement.billItemTemplates}"
+	            			 var="template"
+	            			 reflow="true">
+	            	<p:column headerText="Name">
+	            		<h:outputText value="#{template.name}"/>
+	            	</p:column>
+	            	<p:column headerText="Description">
+	            		<h:outputText value="#{template.description}"/>
+	            	</p:column>
+	            	<p:column headerText="Amount">
+	            		<h:outputText value="#{template.amount}">
+	            			<f:convertNumber currencySymbol = "$" type = "currency" />
+	            		</h:outputText>
+	            	</p:column>
+	            	<p:column headerText="Day Due">
+	            		<h:outputText value="#{template.dayDue}"/>
+	            	</p:column>
+	            	<p:column headerText="Recurring">
+	            		<h:outputText value="#{template.recurringCode}"/>
+	            	</p:column>
+	            	<p:column headerText="Pay To">
+	            		<h:outputText value="#{template.payTo}"/>
+	            	</p:column>
+	            	<p:column>
+	            		<div align="center">
+	            			<p:commandButton value="Add"  style="width:95%;"  />
+	            		</div>
+	            	</p:column>
+	            	<p:column>
+	            		<div align="center">
+	            			<p:commandButton value="Edit" style="width:95%;">
+	            				<f:setPropertyActionListener value="#{template}" target="#{billManagement.selectedBillItemTemplate}"/>
+	            			</p:commandButton>
+	            		</div>
+	            	</p:column>
+	            </p:dataTable>
+	        </div>
+    	</div>
+    	<hr/>
+	</ui:define>
+</ui:composition>
