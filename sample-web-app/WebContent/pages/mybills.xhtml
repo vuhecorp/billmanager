@@ -3,7 +3,8 @@
         xmlns="http://www.w3.org/1999/xhtml"
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:ui="http://java.sun.com/jsf/facelets"
-        xmlns:p="http://primefaces.org/ui">
+        xmlns:p="http://primefaces.org/ui"
+        xmlns:f="http://java.sun.com/jsf/core">
 	<ui:define name="head">
 		<title>My Bills</title>
 	</ui:define>
@@ -31,7 +32,34 @@
 	        <div class="col-lg-9 col-md-12 col-sm-12">
 	            <h2>Current Cycle</h2>
 	            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-	      		
+	            <p:dataTable id="myBillsTable"
+	            			 styleClass="table table-dark"
+	            			 value="#{myBillsPage.myBills}"
+	            			 var="bill"
+	            			 reflow="true">
+	            	<p:column headerText="Type">
+	            		<h:outputText value="#{bill.cycleType}"/>
+	            	</p:column>
+	            	<p:column headerText="Month">
+	            		<h:outputText value="#{bill.month}"/>
+	            	</p:column>
+	            	<p:column headerText="Year">
+	            		<h:outputText value="#{bill.year}"/>
+	            	</p:column>
+	            	<p:column headerText="Start">
+	            		<h:outputText value="#{bill.startDate}">
+	            			 <f:convertDateTime pattern="MM/dd/yyyy" />
+	            		</h:outputText>
+	            	</p:column>
+	            	<p:column headerText="End">
+	            		<h:outputText value="#{bill.endDate}">
+	            			<f:convertDateTime pattern="MM/dd/yyyy" />
+	            		</h:outputText>
+	            	</p:column>
+	            	<p:column headerText="Status">
+	            		<h:outputText value="#{bill.status}"/>
+	            	</p:column>
+	            </p:dataTable>
 	        </div>
     	</div>
     	<hr/>
