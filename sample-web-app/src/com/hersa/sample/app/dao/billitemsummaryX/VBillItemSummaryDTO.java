@@ -11,16 +11,16 @@
  * retrieval system without the express written permission of Easy Access Inc.  
  * ===========================================================================  
  */  
-package com.hersa.sample.app.dao.billitem;
+package com.hersa.sample.app.dao.billitemsummaryX;
 import com.hecorp.api.dao.AbstractD;
 import java.io.Serializable;
 import java.math.BigDecimal;
-public class BillItemDTO extends AbstractD  implements Serializable {
+public class VBillItemSummaryDTO extends AbstractD  implements Serializable {
 
 private static final long serialVersionUID = 1L;
 private int _Active;
 
-private BigDecimal _Amount;
+private BigDecimal _BilledAmount;
 
 private long _BillId;
 
@@ -45,6 +45,8 @@ private java.util.Date _ModifiedOn;
 private int _Month;
 
 private String _Name;
+
+private BigDecimal _PaidAmount;
 
 private String _PayTo;
 
@@ -76,11 +78,11 @@ public void setActive(int value) {
   _Active = value; 
 }
 
-public BigDecimal getAmount() { 
-  return _Amount; 
+public BigDecimal getBilledAmount() { 
+  return _BilledAmount; 
 }
-public void setAmount(BigDecimal value) { 
-  _Amount = value; 
+public void setBilledAmount(BigDecimal value) { 
+  _BilledAmount = value; 
 }
 
 public long getBillId() { 
@@ -167,6 +169,13 @@ public void setName(String value) {
   _Name = value; 
 }
 
+public BigDecimal getPaidAmount() { 
+  return _PaidAmount; 
+}
+public void setPaidAmount(BigDecimal value) { 
+  _PaidAmount = value; 
+}
+
 public String getPayTo() { 
   return _PayTo; 
 }
@@ -242,7 +251,7 @@ public void setYear(int value) {
 public String getInfo() {
  StringBuffer buf = new StringBuffer();
   buf.append("Active=" + _Active + "| "); 
-  buf.append("Amount=" + _Amount + "| "); 
+  buf.append("BilledAmount=" + _BilledAmount + "| "); 
   buf.append("BillId=" + _BillId + "| "); 
   buf.append("CreatedBy=" + _CreatedBy + "| "); 
   buf.append("CreatedOn=" + _CreatedOn + "| "); 
@@ -255,6 +264,7 @@ public String getInfo() {
   buf.append("ModifiedOn=" + _ModifiedOn + "| "); 
   buf.append("Month=" + _Month + "| "); 
   buf.append("Name=" + _Name + "| "); 
+  buf.append("PaidAmount=" + _PaidAmount + "| "); 
   buf.append("PayTo=" + _PayTo + "| "); 
   buf.append("RecurringCode=" + _RecurringCode + "| "); 
   buf.append("Status=" + _Status + "| "); 
@@ -265,29 +275,6 @@ public String getInfo() {
   buf.append("Username=" + _Username + "| "); 
   buf.append("Week=" + _Week + "| "); 
   buf.append("Year=" + _Year + "| "); 
-  buf.append("Active=" + _Active + "| "); 
-  buf.append("Amount=" + _Amount + "| "); 
-  buf.append("BillId=" + _BillId + "| "); 
-  buf.append("CreatedBy=" + _CreatedBy + "| "); 
-  buf.append("CreatedOn=" + _CreatedOn + "| "); 
-  buf.append("DateDue=" + _DateDue + "| "); 
-  buf.append("Day=" + _Day + "| "); 
-  buf.append("Description=" + _Description + "| "); 
-  buf.append("EntityCode=" + _EntityCode + "| "); 
-  buf.append("Id=" + _Id + "| "); 
-  buf.append("ModifiedBy=" + _ModifiedBy + "| "); 
-  buf.append("ModifiedOn=" + _ModifiedOn + "| "); 
-  buf.append("Month=" + _Month + "| "); 
-  buf.append("Name=" + _Name + "| "); 
-  buf.append("PayTo=" + _PayTo + "| "); 
-  buf.append("RecurringCode=" + _RecurringCode + "| "); 
-  buf.append("Status=" + _Status + "| "); 
-  buf.append("StatusDate=" + _StatusDate + "| "); 
-  buf.append("TemplateId=" + _TemplateId + "| "); 
-  buf.append("TimeDue=" + _TimeDue + "| "); 
-  buf.append("TypeCode=" + _TypeCode + "| "); 
-  buf.append("Username=" + _Username + "| "); 
-  buf.append("Week=" + _Week + "| "); 
-  buf.append("Year=" + _Year + "| "); 
+  
   return buf.toString();  }}
 /***************** end *********************/ 

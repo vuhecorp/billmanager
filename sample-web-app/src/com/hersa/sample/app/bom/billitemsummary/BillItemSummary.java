@@ -1,40 +1,51 @@
-package com.hersa.sample.app.bom.billitem;
+package com.hersa.sample.app.bom.billitemsummary;
 
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.hersa.sample.app.dao.billitem.BillItemDTO;
+import com.hersa.sample.app.dao.billitemsummaryX.VBillItemSummaryDTO;
 
-public class BillItem {
+public class BillItemSummary {
 
-	protected BillItemDTO dto;
+	protected VBillItemSummaryDTO dto;
 	
-	public BillItem() {
+	public BillItemSummary() {
 		initialize();
 	}
 
-	public BillItem(BillItemDTO dto) {
+	public BillItemSummary(VBillItemSummaryDTO dto) {
 		initialize();
 		this.dto = dto;
 	}
 	private void initialize() {
-		this.dto = new BillItemDTO();
+		this.dto = new VBillItemSummaryDTO();
 	}
 
-	public BillItemDTO getDto() {
+	public VBillItemSummaryDTO getDto() {
 		return dto;
 	}
 
-	public void setDto(BillItemDTO dto) {
+	public void setDto(VBillItemSummaryDTO dto) {
 		this.dto = dto;
 	}
 
-	public BigDecimal getAmount() {
-		return dto.getAmount();
+	/*==============
+	 * Delegates
+	 *==============*/
+	public int getActive() {
+		return dto.getActive();
 	}
 
-	public void setAmount(BigDecimal value) {
-		dto.setAmount(value);
+	public void setActive(int value) {
+		dto.setActive(value);
+	}
+
+	public BigDecimal getBilledAmount() {
+		return dto.getBilledAmount();
+	}
+
+	public void setBilledAmount(BigDecimal value) {
+		dto.setBilledAmount(value);
 	}
 
 	public long getBillId() {
@@ -117,6 +128,14 @@ public class BillItem {
 		dto.setName(value);
 	}
 
+	public BigDecimal getPaidAmount() {
+		return dto.getPaidAmount();
+	}
+
+	public void setPaidAmount(BigDecimal value) {
+		dto.setPaidAmount(value);
+	}
+
 	public String getPayTo() {
 		return dto.getPayTo();
 	}
@@ -173,24 +192,16 @@ public class BillItem {
 		dto.setTypeCode(value);
 	}
 
-	public String getInfo() {
-		return dto.getInfo();
-	}
-
-	public int getActive() {
-		return dto.getActive();
-	}
-
-	public void setActive(int value) {
-		dto.setActive(value);
-	}
-
 	public String getUsername() {
 		return dto.getUsername();
 	}
 
 	public void setUsername(String value) {
 		dto.setUsername(value);
+	}
+
+	public String getInfo() {
+		return dto.getInfo();
 	}
 
 	public int getDay() {
@@ -224,7 +235,4 @@ public class BillItem {
 	public void setYear(int value) {
 		dto.setYear(value);
 	}
-	
-	/*== delegates ==*/
-	
 }

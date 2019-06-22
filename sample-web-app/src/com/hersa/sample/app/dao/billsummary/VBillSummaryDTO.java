@@ -11,30 +11,24 @@
  * retrieval system without the express written permission of Easy Access Inc.  
  * ===========================================================================  
  */  
-package com.hersa.sample.app.dao.billitem;
+package com.hersa.sample.app.dao.billsummary;
 import com.hecorp.api.dao.AbstractD;
 import java.io.Serializable;
 import java.math.BigDecimal;
-public class BillItemDTO extends AbstractD  implements Serializable {
+public class VBillSummaryDTO extends AbstractD  implements Serializable {
 
 private static final long serialVersionUID = 1L;
-private int _Active;
-
-private BigDecimal _Amount;
-
-private long _BillId;
-
 private String _CreatedBy;
 
 private java.util.Date _CreatedOn;
 
-private java.util.Date _DateDue;
+private String _CycleType;
 
 private int _Day;
 
-private String _Description;
+private String _Descriptor;
 
-private String _EntityCode;
+private java.util.Date _EndDate;
 
 private long _Id;
 
@@ -44,21 +38,15 @@ private java.util.Date _ModifiedOn;
 
 private int _Month;
 
-private String _Name;
-
-private String _PayTo;
-
-private String _RecurringCode;
+private java.util.Date _StartDate;
 
 private String _Status;
 
 private java.util.Date _StatusDate;
 
-private long _TemplateId;
+private BigDecimal _TotalBilled;
 
-private java.util.Date _TimeDue;
-
-private String _TypeCode;
+private int _TotalPaid;
 
 private String _Username;
 
@@ -69,26 +57,6 @@ private int _Year;
 
 
 
-public int getActive() { 
-  return _Active; 
-}
-public void setActive(int value) { 
-  _Active = value; 
-}
-
-public BigDecimal getAmount() { 
-  return _Amount; 
-}
-public void setAmount(BigDecimal value) { 
-  _Amount = value; 
-}
-
-public long getBillId() { 
-  return _BillId; 
-}
-public void setBillId(long value) { 
-  _BillId = value; 
-}
 
 public String getCreatedBy() { 
   return _CreatedBy; 
@@ -104,11 +72,11 @@ public void setCreatedOn(java.util.Date value) {
   _CreatedOn = value; 
 }
 
-public java.util.Date getDateDue() { 
-  return _DateDue; 
+public String getCycleType() { 
+  return _CycleType; 
 }
-public void setDateDue(java.util.Date value) { 
-  _DateDue = value; 
+public void setCycleType(String value) { 
+  _CycleType = value; 
 }
 
 public int getDay() { 
@@ -118,18 +86,18 @@ public void setDay(int value) {
   _Day = value; 
 }
 
-public String getDescription() { 
-  return _Description; 
+public String getDescriptor() { 
+  return _Descriptor; 
 }
-public void setDescription(String value) { 
-  _Description = value; 
+public void setDescriptor(String value) { 
+  _Descriptor = value; 
 }
 
-public String getEntityCode() { 
-  return _EntityCode; 
+public java.util.Date getEndDate() { 
+  return _EndDate; 
 }
-public void setEntityCode(String value) { 
-  _EntityCode = value; 
+public void setEndDate(java.util.Date value) { 
+  _EndDate = value; 
 }
 
 public long getId() { 
@@ -160,25 +128,11 @@ public void setMonth(int value) {
   _Month = value; 
 }
 
-public String getName() { 
-  return _Name; 
+public java.util.Date getStartDate() { 
+  return _StartDate; 
 }
-public void setName(String value) { 
-  _Name = value; 
-}
-
-public String getPayTo() { 
-  return _PayTo; 
-}
-public void setPayTo(String value) { 
-  _PayTo = value; 
-}
-
-public String getRecurringCode() { 
-  return _RecurringCode; 
-}
-public void setRecurringCode(String value) { 
-  _RecurringCode = value; 
+public void setStartDate(java.util.Date value) { 
+  _StartDate = value; 
 }
 
 public String getStatus() { 
@@ -195,25 +149,18 @@ public void setStatusDate(java.util.Date value) {
   _StatusDate = value; 
 }
 
-public long getTemplateId() { 
-  return _TemplateId; 
+public BigDecimal getTotalBilled() { 
+  return _TotalBilled; 
 }
-public void setTemplateId(long value) { 
-  _TemplateId = value; 
-}
-
-public java.util.Date getTimeDue() { 
-  return _TimeDue; 
-}
-public void setTimeDue(java.util.Date value) { 
-  _TimeDue = value; 
+public void setTotalBilled(BigDecimal value) { 
+  _TotalBilled = value; 
 }
 
-public String getTypeCode() { 
-  return _TypeCode; 
+public int getTotalPaid() { 
+  return _TotalPaid; 
 }
-public void setTypeCode(String value) { 
-  _TypeCode = value; 
+public void setTotalPaid(int value) { 
+  _TotalPaid = value; 
 }
 
 public String getUsername() { 
@@ -241,51 +188,39 @@ public void setYear(int value) {
 
 public String getInfo() {
  StringBuffer buf = new StringBuffer();
-  buf.append("Active=" + _Active + "| "); 
-  buf.append("Amount=" + _Amount + "| "); 
-  buf.append("BillId=" + _BillId + "| "); 
   buf.append("CreatedBy=" + _CreatedBy + "| "); 
   buf.append("CreatedOn=" + _CreatedOn + "| "); 
-  buf.append("DateDue=" + _DateDue + "| "); 
+  buf.append("CycleType=" + _CycleType + "| "); 
   buf.append("Day=" + _Day + "| "); 
-  buf.append("Description=" + _Description + "| "); 
-  buf.append("EntityCode=" + _EntityCode + "| "); 
+  buf.append("Descriptor=" + _Descriptor + "| "); 
+  buf.append("EndDate=" + _EndDate + "| "); 
   buf.append("Id=" + _Id + "| "); 
   buf.append("ModifiedBy=" + _ModifiedBy + "| "); 
   buf.append("ModifiedOn=" + _ModifiedOn + "| "); 
   buf.append("Month=" + _Month + "| "); 
-  buf.append("Name=" + _Name + "| "); 
-  buf.append("PayTo=" + _PayTo + "| "); 
-  buf.append("RecurringCode=" + _RecurringCode + "| "); 
+  buf.append("StartDate=" + _StartDate + "| "); 
   buf.append("Status=" + _Status + "| "); 
   buf.append("StatusDate=" + _StatusDate + "| "); 
-  buf.append("TemplateId=" + _TemplateId + "| "); 
-  buf.append("TimeDue=" + _TimeDue + "| "); 
-  buf.append("TypeCode=" + _TypeCode + "| "); 
+  buf.append("TotalBilled=" + _TotalBilled + "| "); 
+  buf.append("TotalPaid=" + _TotalPaid + "| "); 
   buf.append("Username=" + _Username + "| "); 
   buf.append("Week=" + _Week + "| "); 
   buf.append("Year=" + _Year + "| "); 
-  buf.append("Active=" + _Active + "| "); 
-  buf.append("Amount=" + _Amount + "| "); 
-  buf.append("BillId=" + _BillId + "| "); 
   buf.append("CreatedBy=" + _CreatedBy + "| "); 
   buf.append("CreatedOn=" + _CreatedOn + "| "); 
-  buf.append("DateDue=" + _DateDue + "| "); 
+  buf.append("CycleType=" + _CycleType + "| "); 
   buf.append("Day=" + _Day + "| "); 
-  buf.append("Description=" + _Description + "| "); 
-  buf.append("EntityCode=" + _EntityCode + "| "); 
+  buf.append("Descriptor=" + _Descriptor + "| "); 
+  buf.append("EndDate=" + _EndDate + "| "); 
   buf.append("Id=" + _Id + "| "); 
   buf.append("ModifiedBy=" + _ModifiedBy + "| "); 
   buf.append("ModifiedOn=" + _ModifiedOn + "| "); 
   buf.append("Month=" + _Month + "| "); 
-  buf.append("Name=" + _Name + "| "); 
-  buf.append("PayTo=" + _PayTo + "| "); 
-  buf.append("RecurringCode=" + _RecurringCode + "| "); 
+  buf.append("StartDate=" + _StartDate + "| "); 
   buf.append("Status=" + _Status + "| "); 
   buf.append("StatusDate=" + _StatusDate + "| "); 
-  buf.append("TemplateId=" + _TemplateId + "| "); 
-  buf.append("TimeDue=" + _TimeDue + "| "); 
-  buf.append("TypeCode=" + _TypeCode + "| "); 
+  buf.append("TotalBilled=" + _TotalBilled + "| "); 
+  buf.append("TotalPaid=" + _TotalPaid + "| "); 
   buf.append("Username=" + _Username + "| "); 
   buf.append("Week=" + _Week + "| "); 
   buf.append("Year=" + _Year + "| "); 

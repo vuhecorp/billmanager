@@ -33,9 +33,15 @@ package com.hersa.sample.app.dao.billitem;
      public BillItemDTO [] customBillItem(String completeSQL); 
      public int countBillItem(String whereClause, Object[] whereParams, int[] paramTypes); 
      public BillItemDTO [] searchPageableBillItem(String whereClause, Object[] whereParams, int[] paramTypes, String orderClause, int startIndex, int pageSize); 
-public BillItemDTO [] listBillItemByPK(long _Id); 
-public BillItemDTO [] listBillItemByPK(long _Id, String orderByColumn); 
-public int countBillItemByPK(long _Id); 
+
+
+
+
+public BillItemDTO [] listBillItemByActive(int _Active); 
+public BillItemDTO [] listBillItemByActive(int _Active, String orderByColumn); 
+public int countBillItemByActive(int _Active); 
+
+  public void deleteBillItemByActive(int _Active) throws BillItemFinderException, BillItemDeleteException; 
 
 
 
@@ -85,6 +91,15 @@ public int countBillItemByDateDue(java.util.Date _DateDue);
 
 
 
+public BillItemDTO [] listBillItemByDay(int _Day); 
+public BillItemDTO [] listBillItemByDay(int _Day, String orderByColumn); 
+public int countBillItemByDay(int _Day); 
+
+  public void deleteBillItemByDay(int _Day) throws BillItemFinderException, BillItemDeleteException; 
+
+
+
+
 public BillItemDTO [] listBillItemByDescription(String _Description); 
 public BillItemDTO [] listBillItemByDescription(String _Description, String orderByColumn); 
 public int countBillItemByDescription(String _Description); 
@@ -126,6 +141,15 @@ public BillItemDTO [] listBillItemByModifiedOn(java.util.Date _ModifiedOn, Strin
 public int countBillItemByModifiedOn(java.util.Date _ModifiedOn); 
 
   public void deleteBillItemByModifiedOn(java.util.Date _ModifiedOn) throws BillItemFinderException, BillItemDeleteException; 
+
+
+
+
+public BillItemDTO [] listBillItemByMonth(int _Month); 
+public BillItemDTO [] listBillItemByMonth(int _Month, String orderByColumn); 
+public int countBillItemByMonth(int _Month); 
+
+  public void deleteBillItemByMonth(int _Month) throws BillItemFinderException, BillItemDeleteException; 
 
 
 
@@ -198,6 +222,36 @@ public BillItemDTO [] listBillItemByTypeCode(String _TypeCode, String orderByCol
 public int countBillItemByTypeCode(String _TypeCode); 
 
   public void deleteBillItemByTypeCode(String _TypeCode) throws BillItemFinderException, BillItemDeleteException; 
+
+
+
+
+public BillItemDTO [] listBillItemByUsername(String _Username); 
+public BillItemDTO [] listBillItemByUsername(String _Username, String orderByColumn); 
+public int countBillItemByUsername(String _Username); 
+
+  public void deleteBillItemByUsername(String _Username) throws BillItemFinderException, BillItemDeleteException; 
+
+
+
+
+public BillItemDTO [] listBillItemByWeek(int _Week); 
+public BillItemDTO [] listBillItemByWeek(int _Week, String orderByColumn); 
+public int countBillItemByWeek(int _Week); 
+
+  public void deleteBillItemByWeek(int _Week) throws BillItemFinderException, BillItemDeleteException; 
+
+
+
+
+public BillItemDTO [] listBillItemByYear(int _Year); 
+public BillItemDTO [] listBillItemByYear(int _Year, String orderByColumn); 
+public int countBillItemByYear(int _Year); 
+
+  public void deleteBillItemByYear(int _Year) throws BillItemFinderException, BillItemDeleteException; 
+
+
+
 
 
 

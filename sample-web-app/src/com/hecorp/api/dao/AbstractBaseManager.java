@@ -6,8 +6,12 @@ import com.hersa.sample.app.dao.bill.BillDAO;
 import com.hersa.sample.app.dao.bill.BillDAOFactory;
 import com.hersa.sample.app.dao.billitem.BillItemDAO;
 import com.hersa.sample.app.dao.billitem.BillItemDAOFactory;
+import com.hersa.sample.app.dao.billitemsummaryX.VBillItemSummaryDAO;
+import com.hersa.sample.app.dao.billitemsummaryX.VBillItemSummaryDAOFactory;
 import com.hersa.sample.app.dao.billitemtemplate.BillItemTemplateDAO;
 import com.hersa.sample.app.dao.billitemtemplate.BillItemTemplateDAOFactory;
+import com.hersa.sample.app.dao.billsummary.VBillSummaryDAO;
+import com.hersa.sample.app.dao.billsummary.VBillSummaryDAOFactory;
 
 public class AbstractBaseManager {
 
@@ -46,6 +50,28 @@ public class AbstractBaseManager {
 	
 	public BillDAO getBillDAO(Connection connection) {
 		BillDAO dao = BillDAOFactory.getDAO(connection);
+		return dao;
+	}
+	
+	public VBillSummaryDAO getBillSummaryDAO() {
+		VBillSummaryDAO dao = VBillSummaryDAOFactory.getDAO();
+		dao.setConnectionProvider(this.getDefautlConnectionProvider());
+		return dao;
+	}
+	
+	public VBillSummaryDAO getBillSummaryDAO(Connection connection) {
+		VBillSummaryDAO dao = VBillSummaryDAOFactory.getDAO(connection);
+		return dao;
+	}
+	
+	public VBillItemSummaryDAO getBillItemSummaryDAO() {
+		VBillItemSummaryDAO dao = VBillItemSummaryDAOFactory.getDAO();
+		dao.setConnectionProvider(this.getDefautlConnectionProvider());
+		return dao;
+	}
+	
+	public VBillItemSummaryDAO getBillItemSummaryDAO(Connection connection) {
+		VBillItemSummaryDAO dao = VBillItemSummaryDAOFactory.getDAO(connection);
 		return dao;
 	}
 }

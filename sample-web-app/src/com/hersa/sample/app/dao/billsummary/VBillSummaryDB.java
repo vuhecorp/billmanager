@@ -1,22 +1,16 @@
-package com.hersa.sample.app.dao.billitem;
-public final class BillItemDB   {
-  public static final String ORDERBY_ACTIVE = "ACTIVE";    
- 
-  public static final String ORDERBY_AMOUNT = "AMOUNT";    
- 
-  public static final String ORDERBY_BILLID = "BILL_ID";    
- 
+package com.hersa.sample.app.dao.billsummary;
+public final class VBillSummaryDB   {
   public static final String ORDERBY_CREATEDBY = "CREATED_BY";    
  
   public static final String ORDERBY_CREATEDON = "CREATED_ON";    
  
-  public static final String ORDERBY_DATEDUE = "DATE_DUE";    
+  public static final String ORDERBY_CYCLETYPE = "CYCLE_TYPE";    
  
   public static final String ORDERBY_DAY = "DAY";    
  
-  public static final String ORDERBY_DESCRIPTION = "DESCRIPTION";    
+  public static final String ORDERBY_DESCRIPTOR = "DESCRIPTOR";    
  
-  public static final String ORDERBY_ENTITYCODE = "ENTITY_CODE";    
+  public static final String ORDERBY_ENDDATE = "END_DATE";    
  
   public static final String ORDERBY_ID = "ID";    
  
@@ -26,21 +20,15 @@ public final class BillItemDB   {
  
   public static final String ORDERBY_MONTH = "MONTH";    
  
-  public static final String ORDERBY_NAME = "NAME";    
- 
-  public static final String ORDERBY_PAYTO = "PAY_TO";    
- 
-  public static final String ORDERBY_RECURRINGCODE = "RECURRING_CODE";    
+  public static final String ORDERBY_STARTDATE = "START_DATE";    
  
   public static final String ORDERBY_STATUS = "STATUS";    
  
   public static final String ORDERBY_STATUSDATE = "STATUS_DATE";    
  
-  public static final String ORDERBY_TEMPLATEID = "TEMPLATE_ID";    
+  public static final String ORDERBY_TOTALBILLED = "TOTAL_BILLED";    
  
-  public static final String ORDERBY_TIMEDUE = "TIME_DUE";    
- 
-  public static final String ORDERBY_TYPECODE = "TYPE_CODE";    
+  public static final String ORDERBY_TOTALPAID = "TOTAL_PAID";    
  
   public static final String ORDERBY_USERNAME = "USERNAME";    
  
@@ -48,7 +36,7 @@ public final class BillItemDB   {
  
   public static final String ORDERBY_YEAR = "YEAR";    
  
- 
+  
  
       
   private static final int DESC = 0;    
@@ -57,10 +45,10 @@ public final class BillItemDB   {
       
   /** Allows the user to easily construct a list of ORDER BY columns   
    *  Example:   
-   *      BillItemDB helper = new BillItemDB();   
+   *      VBillSummaryDB helper = new VBillSummaryDB();   
    *      String order = helper.add(ORDERBY_DISPLAYNAME).add(ORDERBY_DISPLAYORDER).toString();   
    * **/   
-    public  BillItemDB add(String column, int type) {   
+    public  VBillSummaryDB add(String column, int type) {   
         if (orderBys.length() > 0) {   
             orderBys += ",";   
         }   
@@ -70,7 +58,7 @@ public final class BillItemDB   {
         }   
         return this;             
     }   
-    public  BillItemDB add(String column) {   
+    public  VBillSummaryDB add(String column) {   
         return add(column, ASC);             
     }   
     public String toString() {   

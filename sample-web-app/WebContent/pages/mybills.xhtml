@@ -11,37 +11,32 @@
 	<ui:define name="header">
 		<div class="jumbotron">
 		        <div class="container">
-		          <h3><h:outputText value="#{myBillsPage.pageTitle}"/></h3>
+		          <h1><h:outputText value="#{myBillsPage.pageTitle}"/></h1>
 		          <div>View your past and current bills. Contains useful insight on spending.</div>
 		        </div>
 		    </div>
 	</ui:define>
 	<ui:define name="content">
-		 <div class="row">
+	<h:form>
+	<div class="row">
 	        <div class="col-lg-12 col-md-12 col-sm-12">
-	            <h2>Bill Summaries</h2>
-	            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-	        </div>
-    	</div>
-    	<hr/>
-		 <div class="row">
-	        <div class="col-lg-3 col-md-12 col-sm-12">
-	            <h2>Bill History</h2>
-	            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-	        </div>
-	        <div class="col-lg-9 col-md-12 col-sm-12">
-	            <h2>Current Cycle</h2>
-	            <p>Donec id elit non mi porta gravida at eget metus. Fusce dapibus, tellus ac cursus commodo, tortor mauris condimentum nibh, ut fermentum massa justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+	         <h2>Current Month</h2>
+	            <p>Break down of your bills for the month by <span style="color:blue;font-weight:bold;"><h:outputText id="typeInfo" value="type"/></span></p>
+	            <p:tooltip for="typeInfo">Monthly, Weekly</p:tooltip>
 	            <p:dataTable id="myBillsTable"
 	            			 styleClass="table table-dark"
 	            			 value="#{myBillsPage.myBills}"
 	            			 var="bill"
-	            			 reflow="true">
-	            	<p:column headerText="Type">
-	            		<h:outputText value="#{bill.cycleType}"/>
+	            			 reflow="true"
+	            			 sortBy="#{bill.month}">
+	            	<p:column headerText="Bill #">
+	            		<h:outputText value="#{bill.id}"/>
 	            	</p:column>
 	            	<p:column headerText="Month">
 	            		<h:outputText value="#{bill.month}"/>
+	            	</p:column>
+	            	<p:column headerText="Type">
+	            		<h:outputText styleClass="proper-case" value="#{bill.cycleType}LY"/>
 	            	</p:column>
 	            	<p:column headerText="Year">
 	            		<h:outputText value="#{bill.year}"/>
@@ -56,12 +51,84 @@
 	            			<f:convertDateTime pattern="MM/dd/yyyy" />
 	            		</h:outputText>
 	            	</p:column>
+	            	<p:column headerText="Billed">
+	            		<h:outputText value="#{bill.totalBilled}">
+	            			<f:convertNumber currencySymbol = "$" type = "currency" />
+	            		</h:outputText>
+	            	</p:column>
 	            	<p:column headerText="Status">
 	            		<h:outputText value="#{bill.status}"/>
+	            	</p:column>
+	            	
+	            </p:dataTable>
+	        </div>
+	</div>
+	<hr/>
+		 <div class="row">
+	        <div class="col-lg-12 col-md-12 col-sm-12">
+	            <h2>Current Bill Items</h2>
+	            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+	            <p:dataTable id="myBillItemsTable"
+	            			 styleClass="table table-dark"
+	            			 value="#{myBillsPage.myBillItems}"
+	            			 var="billItem"
+	            			 reflow="true">
+	            	<p:column headerText="ID">
+	            		<h:outputText value="#{billItem.id}"/>
+	            	</p:column>		 
+	            	<p:column headerText="Type">
+	            		<h:outputText value="#{billItem.recurringCode}LY"/>
+	            	</p:column>
+	            	<p:column headerText="Category">
+	            		<h:outputText value="#{billItem.typeCode}"/>
+	            	</p:column>
+	            	<p:column headerText="Name">
+	            		<h:outputText value="#{billItem.name}"/>
+	            	</p:column>
+	            	<p:column headerText="Billed">
+	            		<h:outputText value="#{billItem.billedAmount}">
+	            			<f:convertNumber currencySymbol = "$" type = "currency" />
+	            		</h:outputText>
+	            	</p:column>
+	            	<p:column headerText="Paid">
+	            		<h:outputText value="#{billItem.paidAmount}">
+	            			<f:convertNumber currencySymbol = "$" type = "currency" />
+	            		</h:outputText>
+	            	</p:column>
+	            	<p:column headerText="Balance">
+	            		<h:outputText value="#{billItem.billedAmount - billItem.paidAmount}">
+	            			<f:convertNumber currencySymbol = "$" type = "currency" />
+	            		</h:outputText>
+	            	</p:column>
+	            	<p:column headerText="Due Date">
+	            		<h:outputText value="#{billItem.dateDue}">
+	            			 <f:convertDateTime pattern="MM/dd/yyyy" />
+	            		</h:outputText>
+	            	</p:column>
+	            	<p:column headerText="Time Due">
+	            		<h:outputText value="#{billItem.timeDue}">
+	            			 <f:convertDateTime pattern="hh:mm a" />
+	            		</h:outputText>
+	            	</p:column>
+	            	<p:column headerText="Status">
+	            		<h:outputText value="#{billItem.status}"/>
 	            	</p:column>
 	            </p:dataTable>
 	        </div>
     	</div>
     	<hr/>
+		 <div class="row">
+	        <div class="col-lg-3 col-md-12 col-sm-12">
+	            <h2>Bill History</h2>
+	            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+	        </div>
+	        <div class="col-lg-9 col-md-12 col-sm-12">
+	            <h2>Bill Summaries</h2>
+	            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+	          
+	        </div>
+    	</div>
+    	<hr/>
+    </h:form>	
 	</ui:define>
 </ui:composition>

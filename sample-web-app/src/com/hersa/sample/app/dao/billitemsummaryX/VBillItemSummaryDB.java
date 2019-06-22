@@ -1,8 +1,8 @@
-package com.hersa.sample.app.dao.billitem;
-public final class BillItemDB   {
+package com.hersa.sample.app.dao.billitemsummaryX;
+public final class VBillItemSummaryDB   {
   public static final String ORDERBY_ACTIVE = "ACTIVE";    
  
-  public static final String ORDERBY_AMOUNT = "AMOUNT";    
+  public static final String ORDERBY_BILLEDAMOUNT = "BILLED_AMOUNT";    
  
   public static final String ORDERBY_BILLID = "BILL_ID";    
  
@@ -27,6 +27,8 @@ public final class BillItemDB   {
   public static final String ORDERBY_MONTH = "MONTH";    
  
   public static final String ORDERBY_NAME = "NAME";    
+ 
+  public static final String ORDERBY_PAIDAMOUNT = "PAID_AMOUNT";    
  
   public static final String ORDERBY_PAYTO = "PAY_TO";    
  
@@ -57,10 +59,10 @@ public final class BillItemDB   {
       
   /** Allows the user to easily construct a list of ORDER BY columns   
    *  Example:   
-   *      BillItemDB helper = new BillItemDB();   
+   *      VBillItemSummaryDB helper = new VBillItemSummaryDB();   
    *      String order = helper.add(ORDERBY_DISPLAYNAME).add(ORDERBY_DISPLAYORDER).toString();   
    * **/   
-    public  BillItemDB add(String column, int type) {   
+    public  VBillItemSummaryDB add(String column, int type) {   
         if (orderBys.length() > 0) {   
             orderBys += ",";   
         }   
@@ -70,7 +72,7 @@ public final class BillItemDB   {
         }   
         return this;             
     }   
-    public  BillItemDB add(String column) {   
+    public  VBillItemSummaryDB add(String column) {   
         return add(column, ASC);             
     }   
     public String toString() {   
