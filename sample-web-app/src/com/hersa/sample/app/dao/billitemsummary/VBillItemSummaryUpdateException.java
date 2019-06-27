@@ -11,11 +11,15 @@
  * retrieval system without the express written permission of Easy Access Inc.  
  * ===========================================================================  
  */  
-package com.hersa.sample.app.dao.billitemsummaryX;
-import com.hecorp.api.dao.JNDI;
-public final class VBillItemSummaryJNDI {
-  public static final String XA_DATASOURCE = JNDI.XA_DATASOURCE;
-  public static final String NON_XA_DATASOURCE = JNDI.NON_XA_DATASOURCE;  
-  private VBillItemSummaryJNDI() {
-  }
-}
+package com.hersa.sample.app.dao.billitemsummary;
+public final class VBillItemSummaryUpdateException extends Exception {
+  public VBillItemSummaryUpdateException (String message) { 
+      super(message); 
+  } 
+  public VBillItemSummaryUpdateException(Exception e) { 
+      super(e); 
+  } 
+  public  VBillItemSummaryUpdateException(String msg, Exception e) {  
+      super(msg, e);  
+  }  
+} 

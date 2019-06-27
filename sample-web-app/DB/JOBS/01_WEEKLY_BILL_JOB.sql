@@ -1,4 +1,14 @@
 
+/*
+  Scheduled to run on a weekly basis to 
+  create the user's weekly bills as
+  configured in the BILL_ITEM_TEMPLATE 
+  table. 
+
+  Related: WEEKLY_TRIGGER
+
+  ((DAY (CURRENT TIMESTAMP) - DAYOFWEEK(CURRENT TIMESTAMP) + 13) / 7) 
+*/
 INSERT INTO BILL (
       CYCLE_TYPE
     , YEAR
@@ -17,7 +27,7 @@ INSERT INTO BILL (
           'WEEK'
          , YEAR (CURRENT TIMESTAMP)
          , MONTH (CURRENT TIMESTAMP)
-         , ((DAY (CURRENT TIMESTAMP) - DAYOFWEEK(CURRENT TIMESTAMP) + 13) / 7)
+         , WEEK (CURRENT TIMESTAMP)
          , DATE(CURRENT_DATE)
          , DATE(CURRENT_DATE + 6 DAYS)
          , 'OPEN'

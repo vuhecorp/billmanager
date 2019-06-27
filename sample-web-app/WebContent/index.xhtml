@@ -19,21 +19,7 @@
 		            <p:commandButton value="Log In »" 
 		            				 styleClass="btn btn-primary btn-lg" 
 		            				 action="login.xhtml?faces-redirect=true"/>
-		            <p:dataTable id="schoolsTable" value="#{indexPage.schools}"
-		            			 var="school"
-		            			 reflow="true"
-		            			 rendered="false">
-		            	<p:autoUpdate/>		 
-		            	<p:column headerText="ID">
-							#{school.id}		            	
-		            	</p:column>
-		            	<p:column headerText="Name">
-							#{school.name}		            	
-		            	</p:column>
-		            	<p:column headerText="Address">
-							#{school.address}		            	
-		            	</p:column>
-		            </p:dataTable>
+		         
 		        </div>
 		    </div>
 		</h:form>

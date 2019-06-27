@@ -11,10 +11,11 @@
  * retrieval system without the express written permission of Easy Access Inc.  
  * ===========================================================================  
  */  
-package com.hersa.sample.app.dao.billitemsummaryX;
-import com.hecorp.api.dao.TablePrefix;
-public final class VBillItemSummaryPrefix {
-  public static final String PREFIX = TablePrefix.PREFIX;
-  private VBillItemSummaryPrefix() {
+package com.hersa.sample.app.dao.billitemsummary;
+import com.hecorp.api.dao.JNDI;
+public final class VBillItemSummaryJNDI {
+  public static final String XA_DATASOURCE = JNDI.XA_DATASOURCE;
+  public static final String NON_XA_DATASOURCE = JNDI.NON_XA_DATASOURCE;  
+  private VBillItemSummaryJNDI() {
   }
 }

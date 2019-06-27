@@ -11,7 +11,7 @@
  * retrieval system without the express written permission of Easy Access Inc.  
  * ===========================================================================  
  */  
-package com.hersa.sample.app.dao.billitemsummaryX;
+package com.hersa.sample.app.dao.billitemsummary;
 import com.hecorp.api.dao.AbstractDAImpl;
 import com.hecorp.api.dao.DAOStreamReader;
 import com.hecorp.api.dao.ConnectionUtil;      

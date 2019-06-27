@@ -11,15 +11,15 @@
  * retrieval system without the express written permission of Easy Access Inc.  
  * ===========================================================================  
  */  
-package com.hersa.sample.app.dao.billitemsummaryX;
-public final class VBillItemSummaryUpdateException extends Exception {
-  public VBillItemSummaryUpdateException (String message) { 
+package com.hersa.sample.app.dao.billitemsummary;
+public final class VBillItemSummaryDeleteException extends Exception {
+  public VBillItemSummaryDeleteException (String message) { 
       super(message); 
   } 
-  public VBillItemSummaryUpdateException(Exception e) { 
+  public VBillItemSummaryDeleteException(Exception e) { 
       super(e); 
   } 
-  public  VBillItemSummaryUpdateException(String msg, Exception e) {  
+  public  VBillItemSummaryDeleteException(String msg, Exception e) {  
       super(msg, e);  
   }  
 } 

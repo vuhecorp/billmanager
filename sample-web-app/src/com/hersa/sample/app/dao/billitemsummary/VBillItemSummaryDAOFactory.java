@@ -11,7 +11,7 @@
  * retrieval system without the express written permission of Easy Access Inc.  
  * ===========================================================================  
  */  
-package com.hersa.sample.app.dao.billitemsummaryX;
+package com.hersa.sample.app.dao.billitemsummary;
   import java.sql.Connection;      
   import java.math.BigDecimal;     
     public final class VBillItemSummaryDAOFactory {         

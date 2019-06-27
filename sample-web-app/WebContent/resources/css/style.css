@@ -1,7 +1,50 @@
 body {
-    padding-top: 50px;
-    padding-bottom: 20px;
+	padding-top: 50px;
+	padding-bottom: 20px;
 }
-.proper-case{
+
+.proper-case {
 	text-transform: capitalize !important;
 }
+
+
+
+
+
+
+.cc-event,
+.fc-agenda .cc-event .fc-event-time,
+.cc-event a {
+    background-color: #2eb82e !important;
+    border-color: #2eb82e !important;
+    color: black !important;
+    font-weight: bold !important;
+}
+
+.util-event ,
+.fc-agenda .util-event .fc-event-time,
+.util-event  a {
+    background-color: #ff6384 !important;
+    border-color: #ff6384 !important;
+    color: black !important;
+    font-weight: bold !important;
+}
+
+.trnspt-event,
+.fc-agenda .trnspt-event .fc-event-time,
+.trnspt-event a {
+    background-color: #36a2eb !important;
+    border-color: #36a2eb !important;
+    color: black !important;
+    font-weight: bold !important;
+}
+
+.food-event,
+.fc-agenda .food-event .fc-event-time,
+.food-event a {
+    background-color: #ffcc00 !important;
+    border-color: #ffcc00 !important;
+    color: black !important;
+    font-weight: bold !important;
+}
+

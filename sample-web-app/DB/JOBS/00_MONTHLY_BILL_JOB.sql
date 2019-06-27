@@ -1,4 +1,11 @@
+/*
+  Scheduled to run on a monthly basis to 
+  create the user's montly bills  as
+  configured in the BILL_ITEM_TEMPLATE 
+  table. 
 
+  Related: MONTHLY_TRIGGER
+*/
 INSERT INTO BILL (
       CYCLE_TYPE
     , YEAR

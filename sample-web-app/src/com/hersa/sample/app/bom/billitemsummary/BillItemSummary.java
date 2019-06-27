@@ -3,7 +3,7 @@ package com.hersa.sample.app.bom.billitemsummary;
 import java.math.BigDecimal;
 import java.util.Date;
 
-import com.hersa.sample.app.dao.billitemsummaryX.VBillItemSummaryDTO;
+import com.hersa.sample.app.dao.billitemsummary.VBillItemSummaryDTO;
 
 public class BillItemSummary {
 

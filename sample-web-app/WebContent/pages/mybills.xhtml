@@ -5,6 +5,9 @@
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:p="http://primefaces.org/ui"
         xmlns:f="http://java.sun.com/jsf/core">
+     <f:metadata>
+     	<f:viewAction action="#{myBillsPage.test}"/>
+     </f:metadata>   
 	<ui:define name="head">
 		<title>My Bills</title>
 	</ui:define>
@@ -17,24 +20,33 @@
 		    </div>
 	</ui:define>
 	<ui:define name="content">
-	<h:form>
+	<h:form id="myBillForm">
+	<div class="row">
+		 <div class="col-lg-12 col-md-12 col-sm-12">
+		 	<p:messages id="messages"/>
+		 </div>
+	</div>
 	<div class="row">
 	        <div class="col-lg-12 col-md-12 col-sm-12">
-	         <h2>Current Month</h2>
+	        	<!-- <h2>June 2019 - Bill Summary</h2> -->
+	        	<p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+	        	  <p:schedule value="#{myBillsPage.lazyEventModel}" id="myschedule">
+	        	  	  <p:ajax event="dateSelect" listener="#{myBillsPage.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+		              <p:ajax event="eventSelect" listener="#{myBillsPage.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+		              <p:ajax event="eventMove" listener="#{myBillsPage.onEventMove}" update="messages" />
+		              <p:ajax event="eventResize" listener="#{myBillsPage.onEventResize}" update="messages" />
+		              <p:ajax event="viewChange" listener="#{myBillsPage.onViewChange}"  />
+	        	  </p:schedule>
 	            <p>Break down of your bills for the month by <span style="color:blue;font-weight:bold;"><h:outputText id="typeInfo" value="type"/></span></p>
 	            <p:tooltip for="typeInfo">Monthly, Weekly</p:tooltip>
-	            <p:dataTable id="myBillsTable"
+	            
+	            <!-- <p:dataTable id="myBillsTable"
 	            			 styleClass="table table-dark"
 	            			 value="#{myBillsPage.myBills}"
 	            			 var="bill"
 	            			 reflow="true"
 	            			 sortBy="#{bill.month}">
-	            	<p:column headerText="Bill #">
-	            		<h:outputText value="#{bill.id}"/>
-	            	</p:column>
-	            	<p:column headerText="Month">
-	            		<h:outputText value="#{bill.month}"/>
-	            	</p:column>
+	            	
 	            	<p:column headerText="Type">
 	            		<h:outputText styleClass="proper-case" value="#{bill.cycleType}LY"/>
 	            	</p:column>
@@ -60,10 +72,27 @@
 	            		<h:outputText value="#{bill.status}"/>
 	            	</p:column>
 	            	
-	            </p:dataTable>
+	            </p:dataTable> -->
 	        </div>
 	</div>
 	<hr/>
+	 <div class="row">
+	        <div class="col-lg-6 col-md-6 col-sm-12">
+	            <h2>June 2019 - Bill Types</h2> 
+	            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+	            <p:donutChart model="#{myBillsPage.typeDonutModel}" style="width: 100%; height: 500px;">
+	            	 <p:autoUpdate/>
+	            </p:donutChart>
+	        </div>
+	        <div class="col-lg-6 col-md-6 col-sm-12">
+	            <h2>June 2019 - Bill Categories</h2> 
+	            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+	            <p:donutChart id="categoryDonut" model="#{myBillsPage.categoryDonutModel}" style="width: 100%; height: 500px;">
+	            <p:autoUpdate/>
+	            </p:donutChart>
+	        </div>
+    	</div>
+    	<hr/>
 		 <div class="row">
 	        <div class="col-lg-12 col-md-12 col-sm-12">
 	            <h2>Current Bill Items</h2>
@@ -72,6 +101,7 @@
 	            			 styleClass="table table-dark"
 	            			 value="#{myBillsPage.myBillItems}"
 	            			 var="billItem"
+	            			 rendered="false"
 	            			 reflow="true">
 	            	<p:column headerText="ID">
 	            		<h:outputText value="#{billItem.id}"/>
@@ -129,6 +159,24 @@
 	        </div>
     	</div>
     	<hr/>
+    	 <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
+        <h:panelGrid id="eventDetails" columns="2">
+            <p:outputLabel for="title" value="Titles:" />
+            <p:inputText id="title" value="#{myBillsPage.event.title}" required="true" />
+ 
+            <p:outputLabel for="from" value="From:" />
+            <p:calendar id="from" value="#{myBillsPage.event.startDate}" timeZone="GMT+2" pattern="dd/MM/yyyy HH:mm"/>
+ 
+            <p:outputLabel for="to" value="To:" />
+            <p:calendar id="to" value="#{myBillsPage.event.endDate}" timeZone="GMT+2" pattern="dd/MM/yyyy HH:mm"/>
+ 
+            <p:outputLabel for="allDay" value="All Day:" />
+            <h:selectBooleanCheckbox id="allDay" value="#{myBillsPage.event.allDay}" />
+ 
+            <p:commandButton type="reset" value="Reset" />
+            <p:commandButton id="addButton" value="Save" action="#{myBillsPage.addEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+        </h:panelGrid>
+    </p:dialog>    
     </h:form>	
 	</ui:define>
 </ui:composition>

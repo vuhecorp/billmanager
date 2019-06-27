@@ -1,6 +1,7 @@
 package com.hersa.sample.app.web.filters;
 
 import java.io.IOException;
+import java.util.Map;
 
 import javax.servlet.DispatcherType;
 import javax.servlet.Filter;
@@ -48,6 +49,8 @@ public class AuthenticationFilter implements Filter {
 	public void doFilter(ServletRequest request, ServletResponse response, FilterChain chain) throws IOException, ServletException {
 		HttpServletRequest httpRequest  = (HttpServletRequest) request;
 		User user = (User) httpRequest.getSession().getAttribute(SessionContext.SESSION_USER);
+		Map<String, String[]> map = httpRequest.getParameterMap();
+		
 		if (user == null || !user.isAuthenticated()) {
 			HttpServletResponse httpResponse = (HttpServletResponse) response;
 			String remoteIp = httpRequest.getRemoteAddr();

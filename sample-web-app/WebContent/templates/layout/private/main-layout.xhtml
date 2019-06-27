@@ -8,10 +8,10 @@
     <meta content="text/html; charset=UTF-8" http-equiv="Content-Type" />
     <meta name="viewport" content="width=device-width, initial-scale=1" />
 	<meta name="theme-color" content="#292929"/>
-    <h:outputStylesheet library="webjars" name="bootstrap/3.3.6/css/bootstrap.min-jsf.css" />
-    <h:outputStylesheet library="webjars" name="bootstrap/3.3.6/css/bootstrap-theme.min-jsf.css" />
+    <h:outputStylesheet library="webjars" name="bootstrap/3.3.7/css/bootstrap.min-jsf.css" />
+    <h:outputStylesheet library="webjars" name="bootstrap/3.3.7/css/bootstrap-theme.min-jsf.css" />
     <h:outputStylesheet library="webjars" name="font-awesome/4.5.0/css/font-awesome.min-jsf.css" />
-    <h:outputStylesheet name="css/style.css" />
+    <h:outputStylesheet library="css" name="style.css" />
 	<ui:insert name="head">
 		<title>JSF Integrate Bootstrap</title>
 	</ui:insert>
@@ -35,8 +35,10 @@
     </div>
 
     <!-- load js at bottom for faster loading-->
-    <h:outputScript library="webjars" name="jquery/2.1.4/jquery.min.js"/>
-    <h:outputScript library="webjars" name="bootstrap/3.3.6/js/bootstrap.min.js" />
+    <h:outputScript library="primefaces" name="jquery/jquery.js" target="head" />
+	<h:outputScript library="primefaces" name="jquery/jquery-plugins.js" target="head" />
+   <!--  <h:outputScript library="webjars" name="jquery/2.1.4/jquery.min.js"/> -->
+    <h:outputScript library="webjars" name="bootstrap/3.3.7/js/bootstrap.min.js" />
 
 </h:body>
 </html>

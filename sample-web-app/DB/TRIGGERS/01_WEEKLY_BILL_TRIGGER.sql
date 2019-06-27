@@ -32,9 +32,9 @@ CREATE OR REPLACE TRIGGER WEEKLY_TRIG
              , TMP.TYPE_CODE
              , TMP.RECURRING_CODE
              , NEW_BILL.YEAR
-             , NEW_BILL.MONTH
-             , NEW_BILL.WEEK
-             , NEW_BILL.DAY
+             , MONTH (DATE(CURRENT TIMESTAMP + (TMP.DAY_DUE - 1)))
+             , NEW_BILL.WEEK 
+             , NEW_BILL.DAY 
              , TMP.NAME
              , TMP.DESCRIPTION
              , TMP.AMOUNT

@@ -1,4 +1,4 @@
-package com.hersa.sample.app.dao.billitemsummaryX;
+package com.hersa.sample.app.dao.billitemsummary;
 public final class VBillItemSummaryDB   {
   public static final String ORDERBY_ACTIVE = "ACTIVE";    
  
