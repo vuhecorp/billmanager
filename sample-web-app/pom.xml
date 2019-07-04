@@ -66,6 +66,7 @@
 		    <artifactId>primefaces</artifactId>
 		    <version>7.0</version>
 		</dependency>
+		
         <!-- servlet provided by tomcat -->
         <dependency>
             <groupId>javax.servlet</groupId>

@@ -46,7 +46,11 @@ private String _PayTo;
 
 private String _QuartzExp;
 
+private int _Recurring;
+
 private String _RecurringCode;
+
+private java.util.Date _TimeDue;
 
 private java.util.Date _ToDate;
 
@@ -154,11 +158,25 @@ public void setQuartzExp(String value) {
   _QuartzExp = value; 
 }
 
+public int getRecurring() { 
+  return _Recurring; 
+}
+public void setRecurring(int value) { 
+  _Recurring = value; 
+}
+
 public String getRecurringCode() { 
   return _RecurringCode; 
 }
 public void setRecurringCode(String value) { 
   _RecurringCode = value; 
+}
+
+public java.util.Date getTimeDue() { 
+  return _TimeDue; 
+}
+public void setTimeDue(java.util.Date value) { 
+  _TimeDue = value; 
 }
 
 public java.util.Date getToDate() { 
@@ -198,7 +216,9 @@ public String getInfo() {
   buf.append("Name=" + _Name + "| "); 
   buf.append("PayTo=" + _PayTo + "| "); 
   buf.append("QuartzExp=" + _QuartzExp + "| "); 
+  buf.append("Recurring=" + _Recurring + "| "); 
   buf.append("RecurringCode=" + _RecurringCode + "| "); 
+  buf.append("TimeDue=" + _TimeDue + "| "); 
   buf.append("ToDate=" + _ToDate + "| "); 
   buf.append("TypeCode=" + _TypeCode + "| "); 
   buf.append("Username=" + _Username + "| "); 

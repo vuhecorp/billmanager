@@ -1,0 +1,14 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+      xmlns:h="http://java.sun.com/jsf/html"
+      xmlns:ui="http://java.sun.com/jsf/facelets"
+      xmlns:p="http://primefaces.org/ui"
+      xmlns:f="http://java.sun.com/jsf/core"
+      xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
+		<p:dialog id="eventDetailsDlg" widgetVar="eventDialog" showEffect="clip" hideEffect="clip" width="450" height="375">
+		 	<f:facet name="header">
+		       <h:outputText value="#{not empty myBillsPage.event.id ?  '' : 'New'} Bill Details"/>
+		    </f:facet>
+			<p:messages for="eventDetails"/>
+			<ui:include src="eventPanelGrid.xhtml"/>
+    	</p:dialog>
+</html>

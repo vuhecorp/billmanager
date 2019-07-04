@@ -29,7 +29,10 @@ public class BillItemTemplate {
 	public void setDto(BillItemTemplateDTO dto) {
 		this.dto = dto;
 	}
-
+	
+/* ============
+ * Delegates
+ * ============*/
 	public BigDecimal getAmount() {
 		return dto.getAmount();
 	}
@@ -176,6 +179,22 @@ public class BillItemTemplate {
 
 	public void setUsername(String value) {
 		dto.setUsername(value);
+	}
+
+	public int getRecurring() {
+		return dto.getRecurring();
+	}
+
+	public void setRecurring(int value) {
+		dto.setRecurring(value);
+	}
+
+	public Date getTimeDue() {
+		return dto.getTimeDue();
+	}
+
+	public void setTimeDue(Date value) {
+		dto.setTimeDue(value);
 	}
 	
 	/* =================

@@ -45,7 +45,7 @@ class BillItemTemplateDAOImpl extends AbstractDAImpl implements BillItemTemplate
       this.tableName = table; 
 }
   protected String getSelectSQL(){
-      String sql = " SELECT ACTIVE, AMOUNT, CREATED_BY, CREATED_ON, DAY_DUE, DESCRIPTION, ENTITY_CODE, FROM_DATE, ID, MODIFIED_BY, MODIFIED_ON, NAME, PAY_TO, QUARTZ_EXP, RECURRING_CODE, TO_DATE, TYPE_CODE, USERNAME FROM " + getTable() + " " ;
+      String sql = " SELECT ACTIVE, AMOUNT, CREATED_BY, CREATED_ON, DAY_DUE, DESCRIPTION, ENTITY_CODE, FROM_DATE, ID, MODIFIED_BY, MODIFIED_ON, NAME, PAY_TO, QUARTZ_EXP, RECURRING, RECURRING_CODE, TIME_DUE, TO_DATE, TYPE_CODE, USERNAME FROM " + getTable() + " " ;
       return sql;
 }
   protected String getSelectCountSQL(){
@@ -53,15 +53,15 @@ class BillItemTemplateDAOImpl extends AbstractDAImpl implements BillItemTemplate
       return sql;
 }
   protected String getInsertSQL(){
-      String sql = " INSERT INTO " + getTable() + " ( ACTIVE, AMOUNT, CREATED_BY, CREATED_ON, DAY_DUE, DESCRIPTION, ENTITY_CODE, FROM_DATE, MODIFIED_BY, MODIFIED_ON, NAME, PAY_TO, QUARTZ_EXP, RECURRING_CODE, TO_DATE, TYPE_CODE, USERNAME ) VALUES  ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+      String sql = " INSERT INTO " + getTable() + " ( ACTIVE, AMOUNT, CREATED_BY, CREATED_ON, DAY_DUE, DESCRIPTION, ENTITY_CODE, FROM_DATE, MODIFIED_BY, MODIFIED_ON, NAME, PAY_TO, QUARTZ_EXP, RECURRING, RECURRING_CODE, TIME_DUE, TO_DATE, TYPE_CODE, USERNAME ) VALUES  ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
       return sql;
 }
   protected String getUpdateSQL(){
-      String sql = " UPDATE " + getTable() + " SET  ACTIVE = ? , AMOUNT = ? , CREATED_BY = ? , CREATED_ON = ? , DAY_DUE = ? , DESCRIPTION = ? , ENTITY_CODE = ? , FROM_DATE = ? , MODIFIED_BY = ? , MODIFIED_ON = ? , NAME = ? , PAY_TO = ? , QUARTZ_EXP = ? , RECURRING_CODE = ? , TO_DATE = ? , TYPE_CODE = ? , USERNAME = ?  WHERE ID = ? ";
+      String sql = " UPDATE " + getTable() + " SET  ACTIVE = ? , AMOUNT = ? , CREATED_BY = ? , CREATED_ON = ? , DAY_DUE = ? , DESCRIPTION = ? , ENTITY_CODE = ? , FROM_DATE = ? , MODIFIED_BY = ? , MODIFIED_ON = ? , NAME = ? , PAY_TO = ? , QUARTZ_EXP = ? , RECURRING = ? , RECURRING_CODE = ? , TIME_DUE = ? , TO_DATE = ? , TYPE_CODE = ? , USERNAME = ?  WHERE ID = ? ";
       return sql;
 }
   protected String getUpdateBlobsSQL(){
-      String sql = " UPDATE  " + getTable() + "  SET  ACTIVE = ? , AMOUNT = ? , CREATED_BY = ? , CREATED_ON = ? , DAY_DUE = ? , DESCRIPTION = ? , ENTITY_CODE = ? , FROM_DATE = ? , MODIFIED_BY = ? , MODIFIED_ON = ? , NAME = ? , PAY_TO = ? , QUARTZ_EXP = ? , RECURRING_CODE = ? , TO_DATE = ? , TYPE_CODE = ? , USERNAME = ?  WHERE ID = ? ";
+      String sql = " UPDATE  " + getTable() + "  SET  ACTIVE = ? , AMOUNT = ? , CREATED_BY = ? , CREATED_ON = ? , DAY_DUE = ? , DESCRIPTION = ? , ENTITY_CODE = ? , FROM_DATE = ? , MODIFIED_BY = ? , MODIFIED_ON = ? , NAME = ? , PAY_TO = ? , QUARTZ_EXP = ? , RECURRING = ? , RECURRING_CODE = ? , TIME_DUE = ? , TO_DATE = ? , TYPE_CODE = ? , USERNAME = ?  WHERE ID = ? ";
       return sql;
 }
   protected String getDeleteSQL(){
@@ -835,6 +835,37 @@ public final int countBillItemTemplate(String whereClause, Object[] whereParams,
 
 
 
+  public final BillItemTemplateDTO [] listBillItemTemplateByRecurring(int _Recurring) { 
+     return listBillItemTemplateByRecurring( _Recurring, null);     
+ } 
+
+  public final BillItemTemplateDTO [] listBillItemTemplateByRecurring(int _Recurring, String orderByColumn) { 
+    String whereClause = " WHERE RECURRING = ? ";       
+    Object[] objs = new Object[1];   
+    int[] types = new int[1];   
+    objs[0] = new java.lang.Integer(_Recurring);   
+    types[0] = java.sql.Types.INTEGER;   
+    String order = "";   
+    if (orderByColumn != null && orderByColumn.trim().length() > 0) {  
+        order = " ORDER BY " + orderByColumn; 
+    } 
+     return listBillItemTemplate(whereClause, objs, types, order); 
+ } 
+
+
+
+  public final int countBillItemTemplateByRecurring(int _Recurring) { 
+    String whereClause = " WHERE RECURRING = ? ";       
+    Object[] objs = new Object[1];   
+    int[] types = new int[1];   
+    objs[0] = new java.lang.Integer(_Recurring);   
+    types[0] = java.sql.Types.INTEGER;   
+    return countBillItemTemplate(whereClause, objs, types); 
+ } 
+
+
+
+
   public final BillItemTemplateDTO [] listBillItemTemplateByRecurringCode(String _RecurringCode) { 
      return listBillItemTemplateByRecurringCode( _RecurringCode, null);     
  } 
@@ -860,6 +891,37 @@ public final int countBillItemTemplate(String whereClause, Object[] whereParams,
     int[] types = new int[1];   
     objs[0] = _RecurringCode;   
     types[0] = java.sql.Types.VARCHAR;   
+    return countBillItemTemplate(whereClause, objs, types); 
+ } 
+
+
+
+
+  public final BillItemTemplateDTO [] listBillItemTemplateByTimeDue(java.util.Date _TimeDue) { 
+     return listBillItemTemplateByTimeDue( _TimeDue, null);     
+ } 
+
+  public final BillItemTemplateDTO [] listBillItemTemplateByTimeDue(java.util.Date _TimeDue, String orderByColumn) { 
+    String whereClause = " WHERE TIME_DUE = ? ";       
+    Object[] objs = new Object[1];   
+    int[] types = new int[1];   
+    objs[0] = new java.sql.Timestamp(_TimeDue.getTime());   
+    types[0] = java.sql.Types.TIMESTAMP;   
+    String order = "";   
+    if (orderByColumn != null && orderByColumn.trim().length() > 0) {  
+        order = " ORDER BY " + orderByColumn; 
+    } 
+     return listBillItemTemplate(whereClause, objs, types, order); 
+ } 
+
+
+
+  public final int countBillItemTemplateByTimeDue(java.util.Date _TimeDue) { 
+    String whereClause = " WHERE TIME_DUE = ? ";       
+    Object[] objs = new Object[1];   
+    int[] types = new int[1];   
+    objs[0] = new java.sql.Timestamp(_TimeDue.getTime());   
+    types[0] = java.sql.Types.TIMESTAMP;   
     return countBillItemTemplate(whereClause, objs, types); 
  } 
 
@@ -1053,7 +1115,13 @@ public void retrieveBlobDataByPK(String columnName, long _Id, DAOStreamReader re
                   stmt.setString(i++, _BillItemTemplate.getName()); 
                   stmt.setString(i++, _BillItemTemplate.getPayTo()); 
                   stmt.setString(i++, _BillItemTemplate.getQuartzExp()); 
+                  stmt.setInt(i++, _BillItemTemplate.getRecurring()); 
                   stmt.setString(i++, _BillItemTemplate.getRecurringCode()); 
+                  if (_BillItemTemplate.getTimeDue() != null) { 
+                     stmt.setTimestamp(i++, new java.sql.Timestamp(_BillItemTemplate.getTimeDue().getTime()) ); 
+                  } else {
+                     stmt.setNull(i++, java.sql.Types.TIMESTAMP); 
+                  } 
                   if (_BillItemTemplate.getToDate() != null) { 
                      stmt.setTimestamp(i++, new java.sql.Timestamp(_BillItemTemplate.getToDate().getTime()) ); 
                   } else {
@@ -1126,7 +1194,13 @@ public void retrieveBlobDataByPK(String columnName, long _Id, DAOStreamReader re
                   stmt.setString(i++,  _BillItemTemplate.getName() ); 
                   stmt.setString(i++,  _BillItemTemplate.getPayTo() ); 
                   stmt.setString(i++,  _BillItemTemplate.getQuartzExp() ); 
+                  stmt.setInt(i++,  _BillItemTemplate.getRecurring() ); 
                   stmt.setString(i++,  _BillItemTemplate.getRecurringCode() ); 
+             if (_BillItemTemplate.getTimeDue() != null) { 
+                  stmt.setTimestamp(i++,  new java.sql.Timestamp(_BillItemTemplate.getTimeDue().getTime()) ); 
+             } else { 
+                  stmt.setNull(i++, java.sql.Types.TIMESTAMP); 
+             }
              if (_BillItemTemplate.getToDate() != null) { 
                   stmt.setTimestamp(i++,  new java.sql.Timestamp(_BillItemTemplate.getToDate().getTime()) ); 
              } else { 
@@ -1413,12 +1487,36 @@ public void retrieveBlobDataByPK(String columnName, long _Id, DAOStreamReader re
 
 
 
+  public final void deleteBillItemTemplateByRecurring(int _Recurring) throws BillItemTemplateFinderException, BillItemTemplateDeleteException{ 
+    String whereClause = " WHERE RECURRING = ? ";       
+    Object[] objs = new Object[1];   
+    int[] types = new int[1];   
+    objs[0] = new java.lang.Integer(_Recurring);   
+    types[0] = java.sql.Types.INTEGER;   
+    deleteBillItemTemplateWhere(whereClause, objs, types); 
+ } 
+
+
+
+
   public final void deleteBillItemTemplateByRecurringCode(String _RecurringCode) throws BillItemTemplateFinderException, BillItemTemplateDeleteException{ 
     String whereClause = " WHERE RECURRING_CODE = ? ";       
     Object[] objs = new Object[1];   
     int[] types = new int[1];   
     objs[0] = _RecurringCode;   
     types[0] = java.sql.Types.VARCHAR;   
+    deleteBillItemTemplateWhere(whereClause, objs, types); 
+ } 
+
+
+
+
+  public final void deleteBillItemTemplateByTimeDue(java.util.Date _TimeDue) throws BillItemTemplateFinderException, BillItemTemplateDeleteException{ 
+    String whereClause = " WHERE TIME_DUE = ? ";       
+    Object[] objs = new Object[1];   
+    int[] types = new int[1];   
+    objs[0] = new java.sql.Timestamp(_TimeDue.getTime());   
+    types[0] = java.sql.Types.TIMESTAMP;   
     deleteBillItemTemplateWhere(whereClause, objs, types); 
  } 
 
@@ -1479,7 +1577,9 @@ public final BillItemTemplateDTO extractBillItemTemplate(ResultSet rs)
          obj.setName( rs.getString(i++) );       
          obj.setPayTo( rs.getString(i++) );       
          obj.setQuartzExp( rs.getString(i++) );       
+         obj.setRecurring( rs.getInt(i++) );       
          obj.setRecurringCode( rs.getString(i++) );       
+         obj.setTimeDue( rs.getTimestamp(i++) );       
          obj.setToDate( rs.getTimestamp(i++) );       
          obj.setTypeCode( rs.getString(i++) );       
          obj.setUsername( rs.getString(i++) );       

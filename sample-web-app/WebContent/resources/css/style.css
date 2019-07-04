@@ -1,3 +1,8 @@
+/*
+ define all rules in MOBILE (1st segment)
+ if needed add rules to other media rules.
+*/
+
 body {
 	padding-top: 50px;
 	padding-bottom: 20px;
@@ -7,10 +12,9 @@ body {
 	text-transform: capitalize !important;
 }
 
-
-
-
-
+.w-100{
+	width:100% !important;
+}
 
 .cc-event,
 .fc-agenda .cc-event .fc-event-time,
@@ -46,5 +50,20 @@ body {
     border-color: #ffcc00 !important;
     color: black !important;
     font-weight: bold !important;
+}
+
+#addEventPanelContainer{
+	display:none;
+	margin-top:10px;	
+}
+  		
+/* Tablet targetted size */
+@media screen and (min-width:768px) and (max-width:1024px) {
+  
+}
+
+/* Desktop size */
+@media screen and (min-width:1025px) {
+
 }
 

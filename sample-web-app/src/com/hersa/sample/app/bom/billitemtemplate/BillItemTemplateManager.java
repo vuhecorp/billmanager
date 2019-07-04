@@ -1,9 +1,11 @@
 package com.hersa.sample.app.bom.billitemtemplate;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 import com.hecorp.api.dao.AbstractBaseManager;
+import com.hersa.sample.app.bom.billitem.BillItem;
 import com.hersa.sample.app.dao.billitemtemplate.BillItemTemplateDTO;
 
 public class BillItemTemplateManager extends AbstractBaseManager {
@@ -26,5 +28,10 @@ public class BillItemTemplateManager extends AbstractBaseManager {
 			list.add(new BillItemTemplate(dto));
 		}
 		return list;
+	}
+	
+	public static BillItem convertToBillItem(BillItemTemplate template) {
+		
+		return null;
 	}
 }

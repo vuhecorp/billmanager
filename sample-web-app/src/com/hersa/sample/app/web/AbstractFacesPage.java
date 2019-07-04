@@ -1,5 +1,7 @@
 package com.hersa.sample.app.web;
 
+import java.awt.Dimension;
+import java.awt.Toolkit;
 import java.text.SimpleDateFormat;
 import java.util.Date;
 import java.util.Map;
@@ -21,12 +23,18 @@ public class AbstractFacesPage {
 	
 	protected User sessionUser;
 	
+	private double screenWidth = 0;
+	private double screenHeight = 0;
+	
 	public AbstractFacesPage() {
 		
 	}
 	
 	public void onPageLoad() {
 		sessionUser = SessionContext.getSessionUser();
+		Dimension screenSize = Toolkit.getDefaultToolkit().getScreenSize();
+		screenWidth = screenSize.getWidth();
+		screenHeight = screenSize.getHeight();
 	}
 	
 	public String addApplicationItem() {
@@ -65,6 +73,13 @@ public class AbstractFacesPage {
 		HttpServletRequest request = (HttpServletRequest) this.getExternalContext().getRequest();
 		return request;
 	}
+	
+	public boolean isRenderMobile() {
+		if (screenWidth < 800 && screenHeight < 500) {
+			return true;
+		}
+		return false;
+	}
 	/* ================
 	 * Getter / Setters 
 	 * ================*/
@@ -90,5 +105,21 @@ public class AbstractFacesPage {
 
 	public void setSessionUser(User sessionUser) {
 		this.sessionUser = sessionUser;
+	}
+
+	public double getScreenWidth() {
+		return screenWidth;
+	}
+
+	public void setScreenWidth(double screenWidth) {
+		this.screenWidth = screenWidth;
+	}
+
+	public double getScreenHeight() {
+		return screenHeight;
+	}
+
+	public void setScreenHeight(double screenHeight) {
+		this.screenHeight = screenHeight;
 	}
 }

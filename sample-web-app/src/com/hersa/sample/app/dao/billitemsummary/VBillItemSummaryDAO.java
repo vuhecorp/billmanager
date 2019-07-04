@@ -180,6 +180,15 @@ public int countVBillItemSummaryByPayTo(String _PayTo);
 
 
 
+public VBillItemSummaryDTO [] listVBillItemSummaryByRecurring(int _Recurring); 
+public VBillItemSummaryDTO [] listVBillItemSummaryByRecurring(int _Recurring, String orderByColumn); 
+public int countVBillItemSummaryByRecurring(int _Recurring); 
+
+  public void deleteVBillItemSummaryByRecurring(int _Recurring) throws VBillItemSummaryFinderException, VBillItemSummaryDeleteException; 
+
+
+
+
 public VBillItemSummaryDTO [] listVBillItemSummaryByRecurringCode(String _RecurringCode); 
 public VBillItemSummaryDTO [] listVBillItemSummaryByRecurringCode(String _RecurringCode, String orderByColumn); 
 public int countVBillItemSummaryByRecurringCode(String _RecurringCode); 
@@ -257,6 +266,9 @@ public VBillItemSummaryDTO [] listVBillItemSummaryByYear(int _Year, String order
 public int countVBillItemSummaryByYear(int _Year); 
 
   public void deleteVBillItemSummaryByYear(int _Year) throws VBillItemSummaryFinderException, VBillItemSummaryDeleteException; 
+
+
+
 
 
 

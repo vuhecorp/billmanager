@@ -28,7 +28,11 @@ public final class BillItemTemplateDB   {
  
   public static final String ORDERBY_QUARTZEXP = "QUARTZ_EXP";    
  
+  public static final String ORDERBY_RECURRING = "RECURRING";    
+ 
   public static final String ORDERBY_RECURRINGCODE = "RECURRING_CODE";    
+ 
+  public static final String ORDERBY_TIMEDUE = "TIME_DUE";    
  
   public static final String ORDERBY_TODATE = "TO_DATE";    
  

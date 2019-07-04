@@ -4,9 +4,10 @@
         xmlns:h="http://java.sun.com/jsf/html"
         xmlns:ui="http://java.sun.com/jsf/facelets"
         xmlns:p="http://primefaces.org/ui"
-        xmlns:f="http://java.sun.com/jsf/core">
+        xmlns:f="http://java.sun.com/jsf/core"
+         xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
      <f:metadata>
-     	<f:viewAction action="#{myBillsPage.test}"/>
+     	<f:viewAction action="#{myBillsPage.viewActionMethod}"/>
      </f:metadata>   
 	<ui:define name="head">
 		<title>My Bills</title>
@@ -20,63 +21,53 @@
 		    </div>
 	</ui:define>
 	<ui:define name="content">
-	<h:form id="myBillForm">
-	<div class="row">
-		 <div class="col-lg-12 col-md-12 col-sm-12">
-		 	<p:messages id="messages"/>
-		 </div>
-	</div>
-	<div class="row">
-	        <div class="col-lg-12 col-md-12 col-sm-12">
+	<h:form id="myBillForm" >
+		<h:body>
+		<div class="row">
+			 <div class="col-lg-12 col-md-12 col-sm-12">
+			 	<p:messages id="messages"/>
+			 </div>
+		</div>
+		<div class="row">
+	        <div id="calendar" class="col-lg-12 col-md-12 col-sm-12">
 	        	<!-- <h2>June 2019 - Bill Summary</h2> -->
 	        	<p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-	        	  <p:schedule value="#{myBillsPage.lazyEventModel}" id="myschedule">
-	        	  	  <p:ajax event="dateSelect" listener="#{myBillsPage.onDateSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
-		              <p:ajax event="eventSelect" listener="#{myBillsPage.onEventSelect}" update="eventDetails" oncomplete="PF('eventDialog').show();" />
+	        	 <div id="scheduleContainer">
+	        	  <p:schedule value="#{myBillsPage.lazyEventModel}" widgetVar="myschedule" id="myschedule">
+	        	  	  <p:ajax event="dateSelect" listener="#{myBillsPage.onDateSelect}" update="eventDetailsDlg" oncomplete="onDateSelect();" />
+		              <p:ajax event="eventSelect" listener="#{myBillsPage.onEventSelect}" update="eventDetailsDlg" oncomplete="onDateSelect();" />
 		              <p:ajax event="eventMove" listener="#{myBillsPage.onEventMove}" update="messages" />
 		              <p:ajax event="eventResize" listener="#{myBillsPage.onEventResize}" update="messages" />
 		              <p:ajax event="viewChange" listener="#{myBillsPage.onViewChange}"  />
 	        	  </p:schedule>
+	        	  </div>
+	        	 <!--  <p:outputPanel>
+	        	  	<div id="addEventPanelContainer">
+	        	  	 <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank ui-fluid w-100"
+	        	  	 			  columnClasses="ui-g-12 ui-lg-3 ui-md-2 no-padding,ui-g-12 ui-lg-9 ui-md-10 no-padding">
+	        	  	 	<p:row>
+	        	  	 		<p:column>
+		        	  	 		<p:commandButton immediate="true" value="Cancel" onclick="doHide();"/>
+		        	  	 	</p:column>
+		        	  	 	<p:column>
+		        	  	 		<p:commandButton id="toggleSchedButton" immediate="true" value="View Calendar" onclick="toggleCalendar();"/>
+		        	  	 	</p:column>
+	        	  	 	</p:row>
+	        	  	 	<p:row>
+	        	  	 		<p:column colspan="1">
+	        	  	 			<ui:include src="fragments/eventPanelGrid.xhtml"/>
+	        	  	 		</p:column>
+	        	  	 	</p:row>
+	        	  	 </p:panelGrid>
+	        	  </div>
+	        	  </p:outputPanel> -->
+	        	 <ui:include src="fragments/eventDialog.xhtml"/> 
 	            <p>Break down of your bills for the month by <span style="color:blue;font-weight:bold;"><h:outputText id="typeInfo" value="type"/></span></p>
 	            <p:tooltip for="typeInfo">Monthly, Weekly</p:tooltip>
-	            
-	            <!-- <p:dataTable id="myBillsTable"
-	            			 styleClass="table table-dark"
-	            			 value="#{myBillsPage.myBills}"
-	            			 var="bill"
-	            			 reflow="true"
-	            			 sortBy="#{bill.month}">
-	            	
-	            	<p:column headerText="Type">
-	            		<h:outputText styleClass="proper-case" value="#{bill.cycleType}LY"/>
-	            	</p:column>
-	            	<p:column headerText="Year">
-	            		<h:outputText value="#{bill.year}"/>
-	            	</p:column>
-	            	<p:column headerText="Start">
-	            		<h:outputText value="#{bill.startDate}">
-	            			 <f:convertDateTime pattern="MM/dd/yyyy" />
-	            		</h:outputText>
-	            	</p:column>
-	            	<p:column headerText="End">
-	            		<h:outputText value="#{bill.endDate}">
-	            			<f:convertDateTime pattern="MM/dd/yyyy" />
-	            		</h:outputText>
-	            	</p:column>
-	            	<p:column headerText="Billed">
-	            		<h:outputText value="#{bill.totalBilled}">
-	            			<f:convertNumber currencySymbol = "$" type = "currency" />
-	            		</h:outputText>
-	            	</p:column>
-	            	<p:column headerText="Status">
-	            		<h:outputText value="#{bill.status}"/>
-	            	</p:column>
-	            	
-	            </p:dataTable> -->
 	        </div>
-	</div>
-	<hr/>
-	 <div class="row">
+		</div>
+		<hr/>
+	 	<div class="row">
 	        <div class="col-lg-6 col-md-6 col-sm-12">
 	            <h2>June 2019 - Bill Types</h2> 
 	            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
@@ -97,53 +88,6 @@
 	        <div class="col-lg-12 col-md-12 col-sm-12">
 	            <h2>Current Bill Items</h2>
 	            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-	            <p:dataTable id="myBillItemsTable"
-	            			 styleClass="table table-dark"
-	            			 value="#{myBillsPage.myBillItems}"
-	            			 var="billItem"
-	            			 rendered="false"
-	            			 reflow="true">
-	            	<p:column headerText="ID">
-	            		<h:outputText value="#{billItem.id}"/>
-	            	</p:column>		 
-	            	<p:column headerText="Type">
-	            		<h:outputText value="#{billItem.recurringCode}LY"/>
-	            	</p:column>
-	            	<p:column headerText="Category">
-	            		<h:outputText value="#{billItem.typeCode}"/>
-	            	</p:column>
-	            	<p:column headerText="Name">
-	            		<h:outputText value="#{billItem.name}"/>
-	            	</p:column>
-	            	<p:column headerText="Billed">
-	            		<h:outputText value="#{billItem.billedAmount}">
-	            			<f:convertNumber currencySymbol = "$" type = "currency" />
-	            		</h:outputText>
-	            	</p:column>
-	            	<p:column headerText="Paid">
-	            		<h:outputText value="#{billItem.paidAmount}">
-	            			<f:convertNumber currencySymbol = "$" type = "currency" />
-	            		</h:outputText>
-	            	</p:column>
-	            	<p:column headerText="Balance">
-	            		<h:outputText value="#{billItem.billedAmount - billItem.paidAmount}">
-	            			<f:convertNumber currencySymbol = "$" type = "currency" />
-	            		</h:outputText>
-	            	</p:column>
-	            	<p:column headerText="Due Date">
-	            		<h:outputText value="#{billItem.dateDue}">
-	            			 <f:convertDateTime pattern="MM/dd/yyyy" />
-	            		</h:outputText>
-	            	</p:column>
-	            	<p:column headerText="Time Due">
-	            		<h:outputText value="#{billItem.timeDue}">
-	            			 <f:convertDateTime pattern="hh:mm a" />
-	            		</h:outputText>
-	            	</p:column>
-	            	<p:column headerText="Status">
-	            		<h:outputText value="#{billItem.status}"/>
-	            	</p:column>
-	            </p:dataTable>
 	        </div>
     	</div>
     	<hr/>
@@ -159,24 +103,8 @@
 	        </div>
     	</div>
     	<hr/>
-    	 <p:dialog widgetVar="eventDialog" header="Event Details" showEffect="clip" hideEffect="clip">
-        <h:panelGrid id="eventDetails" columns="2">
-            <p:outputLabel for="title" value="Titles:" />
-            <p:inputText id="title" value="#{myBillsPage.event.title}" required="true" />
- 
-            <p:outputLabel for="from" value="From:" />
-            <p:calendar id="from" value="#{myBillsPage.event.startDate}" timeZone="GMT+2" pattern="dd/MM/yyyy HH:mm"/>
- 
-            <p:outputLabel for="to" value="To:" />
-            <p:calendar id="to" value="#{myBillsPage.event.endDate}" timeZone="GMT+2" pattern="dd/MM/yyyy HH:mm"/>
- 
-            <p:outputLabel for="allDay" value="All Day:" />
-            <h:selectBooleanCheckbox id="allDay" value="#{myBillsPage.event.allDay}" />
- 
-            <p:commandButton type="reset" value="Reset" />
-            <p:commandButton id="addButton" value="Save" action="#{myBillsPage.addEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
-        </h:panelGrid>
-    </p:dialog>    
+    	</h:body>
     </h:form>	
+     <h:outputScript library="js" name="myBills.js" target="head" />
 	</ui:define>
 </ui:composition>

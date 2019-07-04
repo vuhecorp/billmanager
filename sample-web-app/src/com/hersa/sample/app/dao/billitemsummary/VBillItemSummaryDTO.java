@@ -50,6 +50,8 @@ private BigDecimal _PaidAmount;
 
 private String _PayTo;
 
+private int _Recurring;
+
 private String _RecurringCode;
 
 private String _Status;
@@ -183,6 +185,13 @@ public void setPayTo(String value) {
   _PayTo = value; 
 }
 
+public int getRecurring() { 
+  return _Recurring; 
+}
+public void setRecurring(int value) { 
+  _Recurring = value; 
+}
+
 public String getRecurringCode() { 
   return _RecurringCode; 
 }
@@ -266,6 +275,7 @@ public String getInfo() {
   buf.append("Name=" + _Name + "| "); 
   buf.append("PaidAmount=" + _PaidAmount + "| "); 
   buf.append("PayTo=" + _PayTo + "| "); 
+  buf.append("Recurring=" + _Recurring + "| "); 
   buf.append("RecurringCode=" + _RecurringCode + "| "); 
   buf.append("Status=" + _Status + "| "); 
   buf.append("StatusDate=" + _StatusDate + "| "); 
@@ -275,6 +285,6 @@ public String getInfo() {
   buf.append("Username=" + _Username + "| "); 
   buf.append("Week=" + _Week + "| "); 
   buf.append("Year=" + _Year + "| "); 
-  
+ 
   return buf.toString();  }}
 /***************** end *********************/ 

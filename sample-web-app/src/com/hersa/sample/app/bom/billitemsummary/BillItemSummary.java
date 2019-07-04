@@ -9,6 +9,7 @@ public class BillItemSummary {
 
 	protected VBillItemSummaryDTO dto;
 	
+	
 	public BillItemSummary() {
 		initialize();
 	}
@@ -235,4 +236,21 @@ public class BillItemSummary {
 	public void setYear(int value) {
 		dto.setYear(value);
 	}
+
+	public int getRecurring() {
+		return dto.getRecurring();
+	}
+
+	public void setRecurring(int value) {
+		dto.setRecurring(value);
+	}
+	
+	public boolean isRecurring() {
+		return this.dto.getRecurring() == 1;
+	}
+	
+	public void setRecurring(boolean recurring) {
+		this.dto.setRecurring(recurring ? 1 : 0);
+	}
+
 }

@@ -166,11 +166,29 @@ public int countBillItemTemplateByQuartzExp(String _QuartzExp);
 
 
 
+public BillItemTemplateDTO [] listBillItemTemplateByRecurring(int _Recurring); 
+public BillItemTemplateDTO [] listBillItemTemplateByRecurring(int _Recurring, String orderByColumn); 
+public int countBillItemTemplateByRecurring(int _Recurring); 
+
+  public void deleteBillItemTemplateByRecurring(int _Recurring) throws BillItemTemplateFinderException, BillItemTemplateDeleteException; 
+
+
+
+
 public BillItemTemplateDTO [] listBillItemTemplateByRecurringCode(String _RecurringCode); 
 public BillItemTemplateDTO [] listBillItemTemplateByRecurringCode(String _RecurringCode, String orderByColumn); 
 public int countBillItemTemplateByRecurringCode(String _RecurringCode); 
 
   public void deleteBillItemTemplateByRecurringCode(String _RecurringCode) throws BillItemTemplateFinderException, BillItemTemplateDeleteException; 
+
+
+
+
+public BillItemTemplateDTO [] listBillItemTemplateByTimeDue(java.util.Date _TimeDue); 
+public BillItemTemplateDTO [] listBillItemTemplateByTimeDue(java.util.Date _TimeDue, String orderByColumn); 
+public int countBillItemTemplateByTimeDue(java.util.Date _TimeDue); 
+
+  public void deleteBillItemTemplateByTimeDue(java.util.Date _TimeDue) throws BillItemTemplateFinderException, BillItemTemplateDeleteException; 
 
 
 

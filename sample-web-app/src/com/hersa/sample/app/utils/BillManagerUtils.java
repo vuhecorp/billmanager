@@ -9,6 +9,9 @@ import org.joda.time.Days;
 
 public class BillManagerUtils {
 
+	public static final String RECURRING_CODE_MONTH = "MONTH";
+	public static final String RECURRING_CODE_WEEK = "WEEK";
+	
 	public static int getIntMonth(Date date) {
 		Calendar cal = Calendar.getInstance();
 		cal.setTime(date);

@@ -32,6 +32,8 @@ public final class VBillItemSummaryDB   {
  
   public static final String ORDERBY_PAYTO = "PAY_TO";    
  
+  public static final String ORDERBY_RECURRING = "RECURRING";    
+ 
   public static final String ORDERBY_RECURRINGCODE = "RECURRING_CODE";    
  
   public static final String ORDERBY_STATUS = "STATUS";    
@@ -50,7 +52,7 @@ public final class VBillItemSummaryDB   {
  
   public static final String ORDERBY_YEAR = "YEAR";    
  
- 
+
  
       
   private static final int DESC = 0;    
