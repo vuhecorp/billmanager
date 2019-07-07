@@ -46,40 +46,4 @@ public class BillItemManager extends AbstractBaseManager{
 		return list;
 	}
 	
-	public static BillItemTemplate convertToTemplate(BillItemSummary item) {
-		
-		BillItemTemplate template = new BillItemTemplate();
-		
-		template.setTypeCode(item.getTypeCode());
-		template.setRecurring(item.isRecurring() ? 1 : 0);
-		template.setRecurringCode(item.getRecurringCode());
-		template.setName(item.getName());
-		template.setDescription(item.getDescription());
-		template.setAmount(item.getBilledAmount());
-		template.setDayDue(calcDayDue(item));
-		template.setTimeDue(item.getTimeDue());
-		template.setPayTo(item.getPayTo());
-		
-		return template;
-	}
-
-	/**
-	 * calc week day depending on recurring type and date
-	 * @param item
-	 * @return
-	 */
-	private static int calcDayDue(BillItemSummary item) {
-		int dayDue           = 0;
-		String recurringCode = item.getRecurringCode();
-		Date dueDate         = item.getDateDue();
-		DateTime dateTime    = new DateTime(dueDate);
-		
-		if (BillManagerUtils.RECURRING_CODE_WEEK.equalsIgnoreCase(recurringCode)) {
-			dayDue = dateTime.getDayOfWeek();
-		}else if (BillManagerUtils.RECURRING_CODE_MONTH.equalsIgnoreCase(recurringCode)) {
-			dayDue = dateTime.getDayOfMonth();
-		}
-		
-		return dayDue;
-	}
 }

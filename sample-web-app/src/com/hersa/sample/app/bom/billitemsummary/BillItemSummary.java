@@ -20,6 +20,7 @@ public class BillItemSummary {
 	}
 	private void initialize() {
 		this.dto = new VBillItemSummaryDTO();
+		this.dto.setBilledAmount(BigDecimal.ZERO);
 	}
 
 	public VBillItemSummaryDTO getDto() {

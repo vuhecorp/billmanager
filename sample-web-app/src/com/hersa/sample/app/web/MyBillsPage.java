@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
+import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -15,6 +16,11 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
+import org.apache.commons.lang.StringUtils;
+import org.apache.commons.lang.time.DateUtils;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.primefaces.PrimeFaces;
 import org.primefaces.component.schedule.Schedule;
 import org.primefaces.event.DateViewChangeEvent;
 import org.primefaces.event.ScheduleEntryMoveEvent;
@@ -27,24 +33,29 @@ import org.primefaces.model.charts.donut.DonutChartDataSet;
 import org.primefaces.model.charts.donut.DonutChartModel;
 
 import com.hecorp.api.dao.ApplicationException;
+import com.hersa.sample.app.bom.billitem.BillItem;
 import com.hersa.sample.app.bom.billitemsummary.BillItemSummary;
+import com.hersa.sample.app.bom.billitemsummary.BillItemSummaryManager;
+import com.hersa.sample.app.bom.billitemtemplate.BillItemTemplate;
 import com.hersa.sample.app.bom.billsummary.BillSummary;
 import com.hersa.sample.app.bom.billsummary.BillSummaryManager;
 import com.hersa.sample.app.schedule.BillScheduleEvent;
 import com.hersa.sample.app.schedule.LazyBillScheduleModel;
+import com.hersa.sample.app.utils.BillManagerUtils;
 
 @ManagedBean
 @ViewScoped
 public class MyBillsPage extends AbstractFacesPage implements Serializable {
 
-	/**
-	 * 
-	 */
-	private static final long serialVersionUID = -2635878856409734237L;
-	
 	/* ==========================================================================================================================
 	 * Member Variables
 	 * ==========================================================================================================================*/
+	
+	private static final long serialVersionUID = -2635878856409734237L;
+	
+	public static final String PARAM_CREATE_BILL_TEMPLATE = "bill.template.obj";
+	public static final String PARAM_CREATE_BILL_ITEM     = "bill.item.obj";
+	
 	private List<BillSummary> myBills;
 	private Map<String, Map<Integer, BillSummary>> myBillsMap;
 	
@@ -59,6 +70,8 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 
 	Map<String, String> categoryColorMap = new HashMap<String, String>();
 	Map<String, String> typeColorMap = new HashMap<String, String>();
+	
+	
 	
 	
 	/* ==========================================================================================================================
@@ -137,44 +150,118 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 	public String onUpdateScheduleBtnClick() {
 		String response = "";
 		try {
-			onBeforeUpdateSchedule();
-			onUpdateSchedule();
+			Map<String, Object> createParams =  onBeforeUpdateSchedule();
+			onUpdateSchedule(createParams);
 			onAfterUpdateSchedule();
 		} catch(ApplicationException e) {
-			addErrorMessage(e.getMessage());
+			e.printStackTrace();
+			addErrorMessage("eventDetailsForm:eventDetails", e.getMessage());
 		} catch (Exception e) {
 			e.printStackTrace();
-			addErrorMessage("An unexpected error has occured");
+			addErrorMessage("eventDetailsForm:eventDetails", "An unexpected error has occured");
 		}
 		return response;
 	}
 	
 	/**
-	 * Validate use inputs
+	 * Create template, bill item objects. 
+	 * Initialize required values.
+	 * Verify current cycle.
+	 * 
 	 * @throws ApplicationException
 	 */
-	private void onBeforeUpdateSchedule() throws ApplicationException{
-		BillItemSummary billItem = event.getBillItemSummary();
+	private Map<String, Object> onBeforeUpdateSchedule() throws ApplicationException{
 		
+		//place objects in param map. we need to access these in the create method
+		//in order to transaction the create statements.
+		Map<String, Object> createBillItemParams = new HashMap<String, Object>();
+		BillItemSummary itemSummary  		     = event.getBillItemSummary();
+		
+		//if the user specified recurring, we need to create a new template
+		//for this bill item.
+		if(itemSummary.isRecurring()) {
+			BillItemTemplate billTemplateItem = BillItemSummaryManager.convertToTemplate(itemSummary);
+			createBillItemParams.put(PARAM_CREATE_BILL_TEMPLATE, billTemplateItem);
+		}
+		
+		//convert the item summary to a BillItem object. 
+		BillItem billItem = BillItemSummaryManager.convertToBillItem(itemSummary);
+		createBillItemParams.put(PARAM_CREATE_BILL_ITEM, billItem);
+		
+		//set required fields
+		setDueDateFields(billItem);
+		
+		//verify if current bill cycle exists.
+		verifyCurrentBillCycle(billItem);
+		
+		return createBillItemParams;
 	}
-
+	
 	/**
 	 * Perform update/create logic
+	 * @param createParams 
 	 * @throws ApplicationException
 	 */
-	private void onUpdateSchedule() throws ApplicationException{
+	private void onUpdateSchedule(Map<String, Object> createParams) throws ApplicationException{
 		// TODO Auto-generated method stub
 		
 	}
-
+	
 	/**
 	 * Update models
 	 * @throws ApplicationException
 	 */
 	private void onAfterUpdateSchedule() throws ApplicationException{
-		// TODO Auto-generated method stub
+		addInfoMessage("Your new bill item has been successfully created.");
+		PrimeFaces.current().executeScript("PF('eventDialog').hide();");
+	}
+	
+	/**
+	 * Determine recurring type date colums according to 
+	 * recurring type code. 
+	 * @param billItem
+	 */
+	private void setDueDateFields(BillItem billItem) throws ApplicationException{
+		
+		String code      = billItem.getRecurringCode();
+		DateTime dateDue = new DateTime(billItem.getDateDue().getTime());
+		
+		billItem.setDay(-1);
+		billItem.setWeek(-1);
+		billItem.setMonth(dateDue.getMonthOfYear());
+		billItem.setYear(dateDue.getYear());
+		
+		if (Constants.RECURRING_WEEK.equalsIgnoreCase(code)) {
+			billItem.setWeek(dateDue.getWeekOfWeekyear());
+		}
 		
 	}
+
+	private void verifyCurrentBillCycle(BillItem billItem) throws ApplicationException{
+		String mapKey = billItem.getRecurringCode();
+		try {
+			Map<Integer, BillSummary> billMap = myBillsMap.get(mapKey);
+			
+			int listKey = -1;
+			
+			if(Constants.RECURRING_MONTH.equalsIgnoreCase(mapKey)) {
+				listKey = billItem.getMonth();
+			}else if (Constants.RECURRING_WEEK.equalsIgnoreCase(mapKey)) {
+				listKey = billItem.getWeek();
+			}else {
+				throw new ApplicationException("Unsupported recurring code encountered.");
+			}
+			
+			int h = 9;
+		} catch(ApplicationException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ApplicationException("An error occurred during bill cycle verification.");
+		}
+		
+	}
+	
 
 	public void addEvent() {
 		if (event.getId() == null) {
@@ -200,6 +287,15 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 		return response;
 	}
 
+	public String onCancelScheduleBtnClick() {
+		String response = "";
+		try {
+			event = new BillScheduleEvent();
+		} catch (Exception e) {
+			addErrorMessage("An error occurred during cancel action.");
+		}
+		return response;
+	}
 	/* ==========================================================================================================================
 	 * Schedule Event Listeners
 	 * ==========================================================================================================================*/
@@ -210,10 +306,12 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 	}
 
 	public void onDateSelect(SelectEvent selectEvent) {
-		//event = new BillScheduleEvent("", (Date) selectEvent.getObject(), (Date) selectEvent.getObject());
-		Date dueDate = (Date) selectEvent.getObject();
+		DateTime dueDate = new DateTime(((Date) selectEvent.getObject()).getTime());
+		dueDate = BillManagerUtils.getDateTimeZoneOffset(dueDate);
+		
 		event = new BillScheduleEvent();
-		event.getBillItemSummary().setDateDue(dueDate);
+		event.getBillItemSummary().setActive(1);
+		event.getBillItemSummary().setDateDue(dueDate.toDate());
 		event.getBillItemSummary().setTimeDue(new Date());
 		event.getBillItemSummary().setRecurring(1);
 		event.getBillItemSummary().setRecurringCode(Constants.RECURRING_MONTH);
@@ -324,6 +422,28 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 	
 	private void addMessage(FacesMessage message) {
 		FacesContext.getCurrentInstance().addMessage(null, message);
+	}
+	
+	private void validateStringField(boolean required, int max, int min, String name, String value) throws ApplicationException{
+		
+		if (required && StringUtils.isBlank(value)) {
+			throw new ApplicationException(name + " is a required field.");
+		}
+		
+		boolean validateMax = max > 0;
+		boolean validateMin = min > 0;
+		
+		if (validateMax) {
+			if (value.length() > max) {
+				throw new ApplicationException(name + " max length is " + max);
+			}
+		}
+		
+		if (validateMin) {
+			if (value.length() < min) {
+				throw new ApplicationException(name + " min length is " + min);
+			}
+		}
 	}
 	
 	/* ==========================================================================================================================

@@ -21,90 +21,71 @@
 		    </div>
 	</ui:define>
 	<ui:define name="content">
-	<h:form id="myBillForm" >
-		<h:body>
-		<div class="row">
-			 <div class="col-lg-12 col-md-12 col-sm-12">
-			 	<p:messages id="messages"/>
-			 </div>
-		</div>
-		<div class="row">
-	        <div id="calendar" class="col-lg-12 col-md-12 col-sm-12">
-	        	<!-- <h2>June 2019 - Bill Summary</h2> -->
-	        	<p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-	        	 <div id="scheduleContainer">
-	        	  <p:schedule value="#{myBillsPage.lazyEventModel}" widgetVar="myschedule" id="myschedule">
-	        	  	  <p:ajax event="dateSelect" listener="#{myBillsPage.onDateSelect}" update="eventDetailsDlg" oncomplete="onDateSelect();" />
-		              <p:ajax event="eventSelect" listener="#{myBillsPage.onEventSelect}" update="eventDetailsDlg" oncomplete="onDateSelect();" />
-		              <p:ajax event="eventMove" listener="#{myBillsPage.onEventMove}" update="messages" />
-		              <p:ajax event="eventResize" listener="#{myBillsPage.onEventResize}" update="messages" />
-		              <p:ajax event="viewChange" listener="#{myBillsPage.onViewChange}"  />
-	        	  </p:schedule>
-	        	  </div>
-	        	 <!--  <p:outputPanel>
-	        	  	<div id="addEventPanelContainer">
-	        	  	 <p:panelGrid columns="2" layout="grid" styleClass="ui-panelgrid-blank ui-fluid w-100"
-	        	  	 			  columnClasses="ui-g-12 ui-lg-3 ui-md-2 no-padding,ui-g-12 ui-lg-9 ui-md-10 no-padding">
-	        	  	 	<p:row>
-	        	  	 		<p:column>
-		        	  	 		<p:commandButton immediate="true" value="Cancel" onclick="doHide();"/>
-		        	  	 	</p:column>
-		        	  	 	<p:column>
-		        	  	 		<p:commandButton id="toggleSchedButton" immediate="true" value="View Calendar" onclick="toggleCalendar();"/>
-		        	  	 	</p:column>
-	        	  	 	</p:row>
-	        	  	 	<p:row>
-	        	  	 		<p:column colspan="1">
-	        	  	 			<ui:include src="fragments/eventPanelGrid.xhtml"/>
-	        	  	 		</p:column>
-	        	  	 	</p:row>
-	        	  	 </p:panelGrid>
-	        	  </div>
-	        	  </p:outputPanel> -->
-	        	 <ui:include src="fragments/eventDialog.xhtml"/> 
-	            <p>Break down of your bills for the month by <span style="color:blue;font-weight:bold;"><h:outputText id="typeInfo" value="type"/></span></p>
-	            <p:tooltip for="typeInfo">Monthly, Weekly</p:tooltip>
-	        </div>
-		</div>
-		<hr/>
-	 	<div class="row">
-	        <div class="col-lg-6 col-md-6 col-sm-12">
-	            <h2>June 2019 - Bill Types</h2> 
-	            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-	            <p:donutChart model="#{myBillsPage.typeDonutModel}" style="width: 100%; height: 500px;">
-	            	 <p:autoUpdate/>
-	            </p:donutChart>
-	        </div>
-	        <div class="col-lg-6 col-md-6 col-sm-12">
-	            <h2>June 2019 - Bill Categories</h2> 
-	            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-	            <p:donutChart id="categoryDonut" model="#{myBillsPage.categoryDonutModel}" style="width: 100%; height: 500px;">
-	            <p:autoUpdate/>
-	            </p:donutChart>
-	        </div>
-    	</div>
-    	<hr/>
-		 <div class="row">
-	        <div class="col-lg-12 col-md-12 col-sm-12">
-	            <h2>Current Bill Items</h2>
-	            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-	        </div>
-    	</div>
-    	<hr/>
-		 <div class="row">
-	        <div class="col-lg-3 col-md-12 col-sm-12">
-	            <h2>Bill History</h2>
-	            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-	        </div>
-	        <div class="col-lg-9 col-md-12 col-sm-12">
-	            <h2>Bill Summaries</h2>
-	            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
-	          
-	        </div>
-    	</div>
-    	<hr/>
-    	</h:body>
-    </h:form>	
+	<h:body>
+		<h:form id="myBillForm" >
+			<div class="row">
+				 <div class="col-lg-12 col-md-12 col-sm-12">
+				 	<p:messages id="messages" globalOnly="true" showDetail="true" closable="true">
+				 		<p:autoUpdate/>
+				 	</p:messages>
+				 </div>
+			</div>
+			<div class="row">
+		        <div id="calendar" class="col-lg-12 col-md-12 col-sm-12">
+		        	<!-- <h2>June 2019 - Bill Summary</h2> -->
+		        	<p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+		        	 <div id="scheduleContainer"  timeZone="CDT">
+		        	  <p:schedule value="#{myBillsPage.lazyEventModel}" widgetVar="myschedule" id="myschedule">
+		        	  	  <p:ajax event="dateSelect" listener="#{myBillsPage.onDateSelect}" update="eventDetailsDlg" oncomplete="onDateSelect();" />
+			              <p:ajax event="eventSelect" listener="#{myBillsPage.onEventSelect}" update="eventDetailsDlg" oncomplete="onDateSelect();" />
+			              <p:ajax event="eventMove" listener="#{myBillsPage.onEventMove}" update="messages" />
+			              <p:ajax event="eventResize" listener="#{myBillsPage.onEventResize}" update="messages" />
+			              <p:ajax event="viewChange" listener="#{myBillsPage.onViewChange}"  />
+		        	  </p:schedule>
+		        	  </div>
+		            <p>Break down of your bills for the month by <span style="color:blue;font-weight:bold;"><h:outputText id="typeInfo" value="type"/></span></p>
+		            <p:tooltip for="typeInfo">Monthly, Weekly</p:tooltip>
+		        </div>
+			</div>
+			<hr/>
+		 	<div class="row">
+		 		<p:outputPanel id="donutChartPanel">
+		 			 <p:autoUpdate/>
+		 			<div class="col-lg-6 col-md-6 col-sm-12">
+			            <h2>June 2019 - Bill Types</h2> 
+			            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+			            <p:donutChart model="#{myBillsPage.typeDonutModel}" style="width: 100%; height: 500px;"/>
+			        </div>
+			        <div class="col-lg-6 col-md-6 col-sm-12">
+			            <h2>June 2019 - Bill Categories</h2> 
+			            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+			            <p:donutChart id="categoryDonut" model="#{myBillsPage.categoryDonutModel}" style="width: 100%; height: 500px;"/>
+			        </div>
+		 		</p:outputPanel>
+	    	</div>
+	    	<hr/>
+			 <div class="row">
+		        <div class="col-lg-12 col-md-12 col-sm-12">
+		            <h2>Current Bill Items</h2>
+		            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+		        </div>
+	    	</div>
+	    	<hr/>
+			 <div class="row">
+		        <div class="col-lg-3 col-md-12 col-sm-12">
+		            <h2>Bill History</h2>
+		            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+		        </div>
+		        <div class="col-lg-9 col-md-12 col-sm-12">
+		            <h2>Bill Summaries</h2>
+		            <p>Donec id elit non mi justo sit amet risus. Etiam porta sem malesuada magna mollis euismod. Donec sed odio dui. </p>
+		          
+		        </div>
+	    	</div>
+	    	<hr/>
+	     </h:form>	
+     </h:body>
+      <ui:include src="fragments/eventDialog.xhtml"/>
      <h:outputScript library="js" name="myBills.js" target="head" />
 	</ui:define>
 </ui:composition>

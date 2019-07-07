@@ -4,11 +4,14 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-      
+     <h:form id="eventDetailsForm">
 		<p:outputPanel style="margin:0;padding:0;">
 			<c:set var="event" value="#{myBillsPage.event}"/>		
 	        <c:set var="billItem" value="#{myBillsPage.event.billItemSummary}"/>
 	        <c:set var="existing" value="#{not empty myBillsPage.event.id}"/>
+	        <p:messages for="eventDetailsForm" showDetail="true" closable="true">
+	        	<p:autoUpdate/>
+	        </p:messages>
 			<p:outputPanel>
 				<p:autoUpdate/>
 				<p:outputPanel rendered="#{existing}">
@@ -19,168 +22,267 @@
 		        							 	 value="#{event.editMode ? 'Cancel' : 'Edit'}" 
 		        							 	 action="#{myBillsPage.onEditBtnClick}" 
 		        							 	 update="eventDetails"
+		        							 	 immediate="true"
 		        							 	 style="width:75px;"/>
 		        			</div>
 		        		</p:column>
 		        	</p:panelGrid>
 				</p:outputPanel>
 			</p:outputPanel>
-	        <p:panelGrid id="eventDetails" columns="2" layout="grid" styleClass="ui-panelgrid-blank ui-fluid w-100"
+	        <p:panelGrid id="eventDetails" styleClass="ui-panelgrid-blank ui-fluid w-100"
 	        			columnClasses="ui-g-12 ui-lg-3 ui-md-2 no-padding,ui-g-12 ui-lg-9 ui-md-10 no-padding">
-	        	<p:column>
-	        		<p:outputLabel for="title" value="Title:" />
-	        	</p:column>
-	        	<p:column>
-	        		<c:choose>
-	        			<c:when test="#{event.editMode}">
-	        				 <p:inputText id="title" value="#{billItem.name}" required="true" />
-	        			</c:when>
-	        			<c:otherwise>
-	        				<h:outputText id="title" value="#{billItem.name}" />
-	        			</c:otherwise>
-	        		</c:choose>
-	        	</p:column>
-	        	<p:column>
-	        		<p:outputLabel for="desc" value="Description:" />
-	        	</p:column>
-	        	<p:column>
-	        		<c:choose>
-	        			<c:when test="#{event.editMode}">
-	        				 <p:inputText id="desc" value="#{billItem.description}"  />
-	        			</c:when>
-	        			<c:otherwise>
-	        				<h:outputText id="desc" value="#{billItem.description}" />
-	        			</c:otherwise>
-	        		</c:choose>
-	        	</p:column>
-	        	<p:column>
-	        		<p:outputLabel for="dueDate" value="Due Date:" />
-	        	</p:column>
-	        	<p:column>
-	        		<c:choose>
-	        			<c:when test="#{event.editMode}">
-	        				 <h:outputText id="dueDate" value="#{billItem.dateDue}" >
-			            		<f:convertDateTime timeZone="GMT+2" pattern="MM/dd/yyyy"/>
-			            	</h:outputText>
-	        			</c:when>
-	        			<c:otherwise>
-	        				<h:outputText id="dueDate" value="#{billItem.dateDue}" >
-	        					<f:convertDateTime timeZone="GMT+2" pattern="MM/dd/yyyy"/>
-	        				</h:outputText>
-	        			</c:otherwise>
-	        		</c:choose>
-	        	</p:column>
-	        	<p:column>
-	        		<p:outputLabel for="time" value="Due Time:" />
-	        	</p:column>
-	        	<p:column>
-	        		<c:choose>
-	        			<c:when test="#{event.editMode}">
-	        				<p:calendar id="time" value="#{billItem.timeDue}" pattern="hh:mm a" timeOnly="true"  required="true"/>
-	        			</c:when>
-	        			<c:otherwise>
-	        				<h:outputText id="time" value="#{billItem.timeDue}" >
-	        					<f:convertDateTime timeZone="GMT+2" pattern="hh:mm a"/>
-	        				</h:outputText>
-	        			</c:otherwise>
-	        		</c:choose>
-	        	</p:column>
-	        	<p:column>
-	        		<p:outputLabel for="amnt" value="Amount:" />
-	        	</p:column>
-	        	<p:column>
-	        		<c:choose>
-	        			<c:when test="#{event.editMode}">
-	        				<p:inputText id="amnt" value="#{billItem.billedAmount}" required="true"/>
-	        			</c:when>
-	        			<c:otherwise>
-	        				<h:outputText id="amnt" value="#{billItem.billedAmount}" >
-	        					<f:convertNumber type="currency" />
-	        				</h:outputText>
-	        			</c:otherwise>
-	        		</c:choose>
-	        	</p:column>
-	        	<p:column>
-	        		<p:outputLabel for="category" value="Gategory:" />
-	        	</p:column>
-	        	<p:column>
-	        		<c:choose>
-	        			<c:when test="#{event.editMode}">
-	        				<p:selectOneMenu id="category" value="#{billItem.typeCode}" required="true">
-				 				<f:selectItem
-							        itemValue="-x"
-							        itemLabel="-- Select One --"/>
-				 				 <f:selectItem
-							        itemValue="FOOD"
-							        itemLabel="Food"/>
-							     <f:selectItem
-							        itemValue="UTIL"
-							        itemLabel="Utility"/>   
-			 				</p:selectOneMenu>
-	        			</c:when>
-	        			<c:otherwise>
-	        				<h:outputText id="category" value="#{billItem.typeCode}" />
-	        			</c:otherwise>
-	        		</c:choose>
-	        	</p:column>
-	        	<p:column>
-	        		<p:outputLabel for="recurring" value="Repeat:" />
-	        	</p:column>
-	        	<p:column>
-	        		<c:choose>
-	        			<c:when test="#{event.editMode}">
-	        				 <p:selectBooleanCheckbox id="recurring" value="#{billItem.recurring}" >
-			        		 	 <p:ajax />
-			        		 </p:selectBooleanCheckbox>
-	        			</c:when>
-	        			<c:otherwise>
-	        				<h:outputText id="recurring" value="#{billItem.recurring ? 'Yes' : 'No'}" />
-	        			</c:otherwise>
-	        		</c:choose>
-	        	</p:column>
-	        	<p:column>
-	        		<p:outputPanel>
-	        			<p:autoUpdate/>
-	        			<p:outputLabel rendered="#{billItem.recurring}" for="recurrType" value="Every:" />
-	        		</p:outputPanel>
-	        	</p:column>
-	        	<p:column>
-	        		<p:outputPanel>
-		        		 <p:autoUpdate/>
-		        		 <p:outputPanel rendered="#{billItem.recurring}">
-		        			<c:choose>
-			        			<c:when test="#{event.editMode}">
-			        				<p:selectOneMenu id="recurrType" value="#{billItem.recurringCode}">
-						 				<f:selectItem
-									        itemValue="-x"
-									        itemLabel="-- Select One --"/>
-						 				 <f:selectItem
-									        itemValue="MONTH"
-									        itemLabel="Month"/>
-									     <f:selectItem
-									        itemValue="WEEK"
-									        itemLabel="Week"/>   
-					 				</p:selectOneMenu>
-			        			</c:when>
-			        			<c:otherwise>
-			        				<h:outputText id="recurrType" value="#{billItem.recurringCode}" />
-			        			</c:otherwise>
-			        		</c:choose>
+	        	<p:row rendered="#{event.editMode}">	
+	        		<p:column colspan="2">
+	        			<p:message for="title" >
+	        				<p:autoUpdate/>
+	        			</p:message>
+	        		</p:column>
+	        	</p:row>
+	        	<p:row>		
+		        	<p:column>
+		        		<p:outputLabel for="title" value="Title: " >
+		        			<p:autoUpdate/>
+		        		</p:outputLabel>
+		        	</p:column>
+		        	<p:column>
+		        		<c:choose>
+		        			<c:when test="#{event.editMode}">
+		        				 <p:inputText id="title" value="#{billItem.name}" required="true"
+		        				 			  requiredMessage="Title is a required field">
+		        				 	
+		        				 </p:inputText>
+		        			</c:when>
+		        			<c:otherwise>
+		        				<h:outputText id="title" value="#{billItem.name}" />
+		        			</c:otherwise>
+		        		</c:choose>
+		        	</p:column>
+	        	</p:row>
+	        	<p:row rendered="#{event.editMode}">	
+	        		<p:column colspan="2">
+	        			<p:message for="desc" >
+	        				<p:autoUpdate/>
+	        			</p:message>
+	        		</p:column>
+	        	</p:row>
+	        	<p:row>	
+		        	<p:column>
+		        		<p:outputLabel for="desc" value="Description:" />
+		        	</p:column>
+		        	<p:column>
+		        		<c:choose>
+		        			<c:when test="#{event.editMode}">
+		        				 <p:inputText id="desc" value="#{billItem.description}"  />
+		        			</c:when>
+		        			<c:otherwise>
+		        				<h:outputText id="desc" value="#{billItem.description}" />
+		        			</c:otherwise>
+		        		</c:choose>
+		        	</p:column>
+	        	</p:row>
+	        	<p:row rendered="#{event.editMode}">	
+	        		<p:column colspan="2">
+	        			<p:message for="payTo" >
+	        				<p:autoUpdate/>
+	        			</p:message>
+	        		</p:column>
+	        	</p:row>
+	        	<p:row>		
+		        	<p:column>
+		        		<p:outputLabel for="payTo" value="Pay To: " >
+		        			<p:autoUpdate/>
+		        		</p:outputLabel>
+		        	</p:column>
+		        	<p:column>
+		        		<c:choose>
+		        			<c:when test="#{event.editMode}">
+		        				 <p:inputText id="payTo" value="#{billItem.payTo}"/>
+		        			</c:when>
+		        			<c:otherwise>
+		        				<h:outputText id="payTo" value="#{billItem.payTo}" />
+		        			</c:otherwise>
+		        		</c:choose>
+		        	</p:column>
+	        	</p:row>
+	        	<p:row>
+		        	<p:column>
+		        		<p:outputLabel for="dueDate" value="Due Date:" />
+		        	</p:column>
+		        	<p:column>
+		        		<c:choose>
+		        			<c:when test="#{event.editMode}">
+		        				 <h:outputText id="dueDate" value="#{billItem.dateDue}" >
+				            		<f:convertDateTime timeZone="GMT+2" pattern="MM/dd/yyyy"/>
+				            	</h:outputText>
+		        			</c:when>
+		        			<c:otherwise>
+		        				<h:outputText id="dueDate" value="#{billItem.dateDue}" >
+		        					<f:convertDateTime timeZone="GMT+2" pattern="MM/dd/yyyy"/>
+		        				</h:outputText>
+		        			</c:otherwise>
+		        		</c:choose>
+		        	</p:column>
+	        	</p:row>
+	        	<p:row rendered="#{event.editMode}">	
+	        		<p:column colspan="2">
+	        			<p:message for="time" >
+	        				<p:autoUpdate/>
+	        			</p:message>
+	        		</p:column>
+	        	</p:row>
+	        	<p:row>
+		        	<p:column>
+		        		<p:outputLabel for="time" value="Due Time:" >
+		        			<p:autoUpdate/>
+		        		</p:outputLabel>
+		        	</p:column>
+		        	<p:column>
+		        		<c:choose>
+		        			<c:when test="#{event.editMode}">
+		        				<p:calendar id="time" value="#{billItem.timeDue}" pattern="hh:mm a" timeOnly="true"  required="true" requiredMessage="Due Time is a required field"/>
+		        			</c:when>
+		        			<c:otherwise>
+		        				<h:outputText id="time" value="#{billItem.timeDue}" >
+		        					<f:convertDateTime timeZone="GMT+2" pattern="hh:mm a"/>
+		        				</h:outputText>
+		        			</c:otherwise>
+		        		</c:choose>
+		        	</p:column>
+	        	</p:row>
+	        	<p:row rendered="#{event.editMode}">	
+	        		<p:column colspan="2">
+	        			<p:message for="amnt" >
+	        				<p:autoUpdate/>
+	        			</p:message>
+	        		</p:column>
+	        	</p:row>
+	        	<p:row>
+		        	<p:column>
+		        		<p:outputLabel for="amnt" value="Amount:" >
+		        			<p:autoUpdate/>
+		        		</p:outputLabel>
+		        	</p:column>
+		        	<p:column>
+		        		<c:choose>
+		        			<c:when test="#{event.editMode}">
+		        				<p:inputText id="amnt" value="#{billItem.billedAmount}" required="true" requiredMessage="Amount is a required field">
+		        					<f:validateDoubleRange minimum="00.02"/>
+		        				</p:inputText>
+		        			</c:when>
+		        			<c:otherwise>
+		        				<h:outputText id="amnt" value="#{billItem.billedAmount}" >
+		        					<f:convertNumber type="currency" />
+		        				</h:outputText>
+		        			</c:otherwise>
+		        		</c:choose>
+		        	</p:column>
+	        	</p:row>
+	        	<p:row rendered="#{event.editMode}">	
+	        		<p:column colspan="2">
+	        			<p:message for="category" >
+	        				<p:autoUpdate/>
+	        			</p:message>
+	        		</p:column>
+	        	</p:row>
+	        	<p:row>
+		        	<p:column>
+		        		<p:outputLabel for="category" value="Gategory:" >
+		        			<p:autoUpdate/>
+		        		</p:outputLabel>
+		        	</p:column>
+		        	<p:column>
+		        		<c:choose>
+		        			<c:when test="#{event.editMode}">
+		        				<p:selectOneMenu id="category" value="#{billItem.typeCode}" required="true" requiredMessage="Category is a required field">
+					 				<f:selectItem
+								        itemValue=""
+								        itemLabel="-- Select One --"/>
+					 				 <f:selectItem
+								        itemValue="FOOD"
+								        itemLabel="Food"/>
+								     <f:selectItem
+								        itemValue="UTIL"
+								        itemLabel="Utility"/>   
+				 				</p:selectOneMenu>
+		        			</c:when>
+		        			<c:otherwise>
+		        				<h:outputText id="category" value="#{billItem.typeCode}" />
+		        			</c:otherwise>
+		        		</c:choose>
+		        	</p:column>
+	        	</p:row>
+	        	<p:row>
+		        	<p:column>
+		        		<p:outputLabel for="recurring" value="Repeat:" />
+		        	</p:column>
+		        	<p:column>
+		        		<c:choose>
+		        			<c:when test="#{event.editMode}">
+		        				 <p:selectBooleanCheckbox id="recurring" value="#{billItem.recurring}" >
+				        		 	 <p:ajax />
+				        		 </p:selectBooleanCheckbox>
+		        			</c:when>
+		        			<c:otherwise>
+		        				<h:outputText id="recurring" value="#{billItem.recurring ? 'Yes' : 'No'}" />
+		        			</c:otherwise>
+		        		</c:choose>
+		        	</p:column>
+		        </p:row>
+		        <p:row rendered="#{event.editMode}">	
+	        		<p:column colspan="2">
+	        			<p:message for="recurrType" >
+	        				<p:autoUpdate/>
+	        			</p:message>
+	        		</p:column>
+	        	</p:row>
+		        <p:row>	
+		        	<p:column>
+		        		<p:outputPanel>
+		        			<p:autoUpdate/>
+		        			<p:outputLabel rendered="#{billItem.recurring}" for="recurrType" value="Every:" >
+		        				<p:autoUpdate/>
+		        			</p:outputLabel>
 		        		</p:outputPanel>
-	 			   </p:outputPanel>
-	        	</p:column>
+		        	</p:column>
+		        	<p:column>
+		        		<p:outputPanel>
+			        		 <p:autoUpdate/>
+			        		 <p:outputPanel rendered="#{billItem.recurring}">
+			        			<c:choose>
+				        			<c:when test="#{event.editMode}">
+				        				<p:selectOneMenu id="recurrType" value="#{billItem.recurringCode}" required="true" requiredMessage="Every is a required field">
+							 				<f:selectItem
+										        itemValue=""
+										        itemLabel="-- Select One --"/>
+							 				 <f:selectItem
+										        itemValue="MONTH"
+										        itemLabel="Month"/>
+										     <f:selectItem
+										        itemValue="WEEK"
+										        itemLabel="Week"/>   
+						 				</p:selectOneMenu>
+				        			</c:when>
+				        			<c:otherwise>
+				        				<h:outputText id="recurrType" value="#{billItem.recurringCode}" />
+				        			</c:otherwise>
+				        		</c:choose>
+			        		</p:outputPanel>
+		 			   </p:outputPanel>
+		        	</p:column>
+	        	</p:row>
 	        </p:panelGrid>
 	        <p:outputPanel id="eventDialogBtnPanel">
 	        	 <p:autoUpdate/>
 		         <p:panelGrid  columns="2" layout="grid" styleClass="ui-panelgrid-blank ui-fluid w-100" rendered="#{event.editMode}">
 		        		<p:column>
 		        			<p:commandButton id="deleteBtn" rendered="#{existing}" value="Delete"/>
-		        			<p:commandButton id="cancelBtn" oncomplete="PF('eventDialog').hide();" rendered="#{not existing}" value="Cancel"/>
+		        			<p:commandButton id="cancelBtn" oncomplete="PF('eventDialog').hide();" rendered="#{not existing}" action="#{myBillsPage.onCancelScheduleBtnClick}" value="Cancel" immediate="true"/>
 		        		</p:column>	
 		        		<p:column>
-		        			<p:commandButton id="addButton" value="#{not empty myBillsPage.event.id ? 'Update' : 'Create'}" action="#{myBillsPage.addEvent}" oncomplete="PF('myschedule').update();PF('eventDialog').hide();" />
+		        			<p:commandButton id="addButton" value="#{not empty myBillsPage.event.id ? 'Update' : 'Create'}" action="#{myBillsPage.onUpdateScheduleBtnClick}"/>
 		        		</p:column>
 		        </p:panelGrid>
 	        </p:outputPanel>
-        </p:outputPanel>
+       	</p:outputPanel>
+       </h:form>
 </html>

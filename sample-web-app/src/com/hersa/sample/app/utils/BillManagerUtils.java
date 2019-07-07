@@ -5,6 +5,7 @@ import java.util.concurrent.TimeUnit;
 
 import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
 import org.joda.time.Days;
 
 public class BillManagerUtils {
@@ -49,11 +50,17 @@ public class BillManagerUtils {
 		
 		//if view = day, do something else.. 
 		
-		
-		
-		
 		Date median = getMedianDate(date1, date2);
 		int month = getIntMonth(median);
 		return month;
+	}
+	
+	public static DateTime getDateTimeZoneOffset(DateTime date) {
+		DateTimeZone tz = DateTimeZone.getDefault();
+		Long instant = DateTime.now().getMillis();
+		long offsetInMilliseconds = tz.getOffset(instant);
+		Long hours = TimeUnit.MILLISECONDS.toHours( offsetInMilliseconds ) * -1;
+		date = date.plusHours(hours.intValue());
+		return date;
 	}
 }

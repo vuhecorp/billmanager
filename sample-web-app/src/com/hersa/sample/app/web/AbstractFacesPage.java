@@ -48,6 +48,13 @@ public class AbstractFacesPage {
 		return applicationContext.getApplicationMapSize();
 	}
 	
+	
+	/* ==================
+	 * Faces Methods
+	 * ==================*/
+	
+	
+	
 	public FacesContext getFacesContext() {
 		return FacesContext.getCurrentInstance();
 	}
@@ -57,7 +64,19 @@ public class AbstractFacesPage {
 	}
 	
 	public void addErrorMessage(String message) {
-		this.getFacesContext().addMessage(null, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error", message));
+		addErrorMessage(null, message);
+	}
+	
+	public void addErrorMessage(String clientId , String message) {
+		this.getFacesContext().addMessage(clientId, new FacesMessage(FacesMessage.SEVERITY_ERROR, "Error: ", message));
+	}
+	
+	public void addInfoMessage(String message) {
+		addInfoMessage(null, message);
+	}
+	
+	public void addInfoMessage(String clientId , String message) {
+		this.getFacesContext().addMessage(clientId, new FacesMessage(FacesMessage.SEVERITY_INFO, "Info: ", message));
 	}
 	
 	public HttpSession getHttpSession() {
