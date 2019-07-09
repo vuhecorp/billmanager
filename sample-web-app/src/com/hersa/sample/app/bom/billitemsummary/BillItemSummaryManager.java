@@ -5,7 +5,6 @@ import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
-import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
 
 import com.hecorp.api.dao.AbstractBaseManager;

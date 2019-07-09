@@ -1,6 +1,8 @@
 package com.hecorp.api.dao;
 
 import java.sql.Connection;
+import java.sql.SQLException;
+import java.util.Date;
 
 import com.hersa.sample.app.dao.bill.BillDAO;
 import com.hersa.sample.app.dao.bill.BillDAOFactory;
@@ -15,6 +17,33 @@ import com.hersa.sample.app.dao.billsummary.VBillSummaryDAOFactory;
 
 public class AbstractBaseManager {
 
+	public void markCreated(BOM bom, String userName) {
+		markCreated(bom, userName, new Date());
+	}
+	
+	public void markCreated(BOM bom , String userName, Date date) {
+		bom.setCreatedBy(userName);
+		bom.setCreatedOn(date);
+	    markUpdated(bom, userName, date);
+	}
+	
+	public void markUpdated(BOM bom , String userName) {
+		markUpdated(bom, userName, new Date());
+	}
+	
+	public void markUpdated(BOM bom , String userName, Date date) {
+		bom.setModifiedBy(userName);
+		bom.setModifiedOn(date);
+	}
+	
+	public void close(Connection connection) {
+		try {
+			connection.close();
+		} catch (SQLException e) {
+			e.printStackTrace();
+		}
+	}
+	
 	public ConnectionProvider getDefautlConnectionProvider() {
 		ConnectionProvider factory = new DefaultConnectionProvider(JNDI.EBILLING);
 		return factory;

@@ -1,19 +1,15 @@
 package com.hersa.sample.app.bom.billitem;
 
+import java.sql.Connection;
 import java.sql.Types;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 
-import org.joda.time.DateTime;
-
 import com.hecorp.api.dao.AbstractBaseManager;
-import com.hersa.sample.app.bom.billitemsummary.BillItemSummary;
-import com.hersa.sample.app.bom.billitemtemplate.BillItemTemplate;
+import com.hecorp.api.dao.ApplicationException;
+import com.hersa.sample.app.dao.billitem.BillItemCreateException;
 import com.hersa.sample.app.dao.billitem.BillItemDB;
 import com.hersa.sample.app.dao.billitem.BillItemDTO;
-import com.hersa.sample.app.schedule.BillScheduleEvent;
-import com.hersa.sample.app.utils.BillManagerUtils;
 
 public class BillItemManager extends AbstractBaseManager{
 
@@ -31,6 +27,36 @@ public class BillItemManager extends AbstractBaseManager{
 		int[] paramTypes     = {Types.VARCHAR};
 		String orderBy       = " ORDER BY " + BillItemDB.ORDERBY_DATEDUE + " ASC";
 		return convert(this.getBillItemDAO().listBillItem(whereClause, whereParams, paramTypes, orderBy));
+	}
+	
+	public void createBillItem(BillItem billItem) throws ApplicationException {
+		createBillItem(billItem, null);
+	}
+	
+	public void createBillItem(BillItem billItem, Connection external) throws ApplicationException {
+		
+		Connection connection = external;
+		boolean local 		  = false;
+		
+		try {
+			
+			if (connection == null) {
+				local = true;
+				connection = getDefautlConnectionProvider().openConnection();
+			}
+			
+			this.getBillItemDAO(connection).createBillItem(billItem.getDto());
+		} catch (BillItemCreateException e) {
+			e.printStackTrace();
+			throw new ApplicationException("An error occurred while creating bill item");
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ApplicationException("An unexpected error occured.");
+		}finally {
+			if (local) {
+				close(connection);
+			}
+		}
 	}
 	
 	public List<BillItem> convert(BillItemDTO[] dtos){

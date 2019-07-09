@@ -12,5 +12,6 @@
  * ===========================================================================  
  */  
 package com.hecorp.api.dao;
-  public class AbstractD { 
+  public class AbstractD {
+	  
   }  

@@ -3,9 +3,10 @@ package com.hersa.sample.app.bom.billitem;
 import java.math.BigDecimal;
 import java.util.Date;
 
+import com.hecorp.api.dao.BOM;
 import com.hersa.sample.app.dao.billitem.BillItemDTO;
 
-public class BillItem {
+public class BillItem implements BOM{
 
 	protected BillItemDTO dto;
 	

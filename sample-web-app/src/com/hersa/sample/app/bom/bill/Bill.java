@@ -2,9 +2,10 @@ package com.hersa.sample.app.bom.bill;
 
 import java.util.Date;
 
+import com.hecorp.api.dao.BOM;
 import com.hersa.sample.app.dao.bill.BillDTO;
 
-public class Bill {
+public class Bill implements BOM {
 
 	protected BillDTO dto;
 	

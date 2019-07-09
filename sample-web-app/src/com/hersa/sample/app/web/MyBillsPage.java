@@ -8,7 +8,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
-import java.util.concurrent.TimeUnit;
 
 import javax.annotation.PostConstruct;
 import javax.faces.application.FacesMessage;
@@ -16,10 +15,7 @@ import javax.faces.bean.ManagedBean;
 import javax.faces.bean.ViewScoped;
 import javax.faces.context.FacesContext;
 
-import org.apache.commons.lang.StringUtils;
-import org.apache.commons.lang.time.DateUtils;
 import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
 import org.primefaces.PrimeFaces;
 import org.primefaces.component.schedule.Schedule;
 import org.primefaces.event.DateViewChangeEvent;
@@ -33,6 +29,8 @@ import org.primefaces.model.charts.donut.DonutChartDataSet;
 import org.primefaces.model.charts.donut.DonutChartModel;
 
 import com.hecorp.api.dao.ApplicationException;
+import com.hersa.sample.app.bom.bill.Bill;
+import com.hersa.sample.app.bom.bill.BillManager;
 import com.hersa.sample.app.bom.billitem.BillItem;
 import com.hersa.sample.app.bom.billitemsummary.BillItemSummary;
 import com.hersa.sample.app.bom.billitemsummary.BillItemSummaryManager;
@@ -55,9 +53,10 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 	
 	public static final String PARAM_CREATE_BILL_TEMPLATE = "bill.template.obj";
 	public static final String PARAM_CREATE_BILL_ITEM     = "bill.item.obj";
+	public static final String PARAM_CREATE_BILL_SUMMARY  = "bill.summary.obj";
 	
 	private List<BillSummary> myBills;
-	private Map<String, Map<Integer, BillSummary>> myBillsMap;
+	private Map<String, Map<Integer, List<BillSummary>>> myBillsMap;
 	
 	private List<BillItemSummary> myBillItems = new ArrayList<BillItemSummary>();
 
@@ -71,9 +70,6 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 	Map<String, String> categoryColorMap = new HashMap<String, String>();
 	Map<String, String> typeColorMap = new HashMap<String, String>();
 	
-	
-	
-	
 	/* ==========================================================================================================================
 	 * Constructors / Page Load
 	 * ==========================================================================================================================*/
@@ -83,7 +79,7 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 		
 		pageTitle = "My Bills";
 		this.myBills = new ArrayList<BillSummary>();
-		this.myBillsMap = new HashMap<String, Map<Integer, BillSummary>>();
+		this.myBillsMap = new HashMap<String, Map<Integer, List<BillSummary>>>();
 		this.setMyBillItems(new ArrayList<BillItemSummary>());
 		eventModel = new DefaultScheduleModel();
 		
@@ -101,6 +97,8 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 	public void onPageLoad() {
 		super.onPageLoad();
 		lazyEventModel = new LazyBillScheduleModel(this);
+		
+		@SuppressWarnings("unused")
 		Schedule schedule = (Schedule) FacesContext.getCurrentInstance().getViewRoot().findComponent("myBillForm:myschedule");
 	}
 
@@ -112,33 +110,31 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 		BillSummaryManager bsm = new BillSummaryManager();
 		myBills = bsm.retrieveBillSummariesByMonth(sessionUser.getUserName() , month);
 		
-		//init bills map. 
-		Thread thread = new Thread() {
-			public void run() {
+		myBillsMap.clear();
 
-				myBillsMap.clear();
+		Map<Integer, List<BillSummary>> monthMap = new HashMap<Integer, List<BillSummary>>();
+		Map<Integer, List<BillSummary>> weekMap  = new HashMap<Integer, List<BillSummary>>();
 
-				Map<Integer, BillSummary> monthMap = new HashMap<Integer, BillSummary>();
-				Map<Integer, BillSummary> weekMap  = new HashMap<Integer, BillSummary>();
-
-				for (BillSummary bill : myBills) {
-					
-					String recurrType = bill.getCycleType();
-					Integer key       = recurrType.equalsIgnoreCase(Constants.RECURRING_MONTH) ? bill.getMonth() : bill.getWeek();
-					
-					if (recurrType.equalsIgnoreCase(Constants.RECURRING_MONTH) ) {
-						monthMap.put(key, bill);
-					}else {
-						weekMap.put(key, bill);
-					}
+		for (BillSummary bill : myBills) {
+			
+			String recurrType = bill.getCycleType();
+			Integer key       = recurrType.equalsIgnoreCase(Constants.RECURRING_MONTH) ? bill.getMonth() : bill.getWeek();
+			
+			if (recurrType.equalsIgnoreCase(Constants.RECURRING_MONTH) ) {
+				if (!monthMap.containsKey(key)) {
+					monthMap.put(key, new ArrayList<BillSummary>());
 				}
-				
-				myBillsMap.put(Constants.RECURRING_MONTH, monthMap);
-				myBillsMap.put(Constants.RECURRING_WEEK, weekMap);
+				monthMap.get(key).add(bill);
+			}else {
+				if (!weekMap.containsKey(key)) {
+					weekMap.put(key, new ArrayList<BillSummary>());
+				}
+				weekMap.get(key).add(bill);
 			}
-		};
-
-		thread.start();
+		}
+		
+		myBillsMap.put(Constants.RECURRING_MONTH, monthMap);
+		myBillsMap.put(Constants.RECURRING_WEEK, weekMap);
 		
 		createTypeDonutModel();
 	}
@@ -192,7 +188,7 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 		setDueDateFields(billItem);
 		
 		//verify if current bill cycle exists.
-		verifyCurrentBillCycle(billItem);
+		verifyCurrentBillCycle(createBillItemParams);
 		
 		return createBillItemParams;
 	}
@@ -237,10 +233,20 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 		
 	}
 
-	private void verifyCurrentBillCycle(BillItem billItem) throws ApplicationException{
-		String mapKey = billItem.getRecurringCode();
+	/**
+	 * Attempts to find an existing bill cycle to add the new bill item to. 
+	 * If it cannot find one, it must be created. 
+	 * 
+	 * @param createBillItemParams
+	 * @throws ApplicationException
+	 */
+	private void verifyCurrentBillCycle(Map<String, Object> createBillItemParams) throws ApplicationException{
+		
+		BillItem billItem 	= (BillItem) createBillItemParams.get(PARAM_CREATE_BILL_ITEM);
+		String mapKey     	= billItem.getRecurringCode();
+		Bill bill = null;
 		try {
-			Map<Integer, BillSummary> billMap = myBillsMap.get(mapKey);
+			Map<Integer, List<BillSummary>> billMap = myBillsMap.get(mapKey);
 			
 			int listKey = -1;
 			
@@ -252,7 +258,18 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 				throw new ApplicationException("Unsupported recurring code encountered.");
 			}
 			
-			int h = 9;
+			List<BillSummary> summaries = billMap.get(listKey);
+			
+			if (summaries != null && !summaries.isEmpty()) {
+				bill = BillManager.convertSummaryToBill(summaries.get(0));  
+				createBillItemParams.put(PARAM_CREATE_BILL_SUMMARY, bill);
+				return;
+			}
+			
+			//no bill cycle exists. initialize and return. 
+			bill = BillManager.initBillFromItem(billItem);
+			createBillItemParams.put(PARAM_CREATE_BILL_SUMMARY, bill);
+			
 		} catch(ApplicationException e) {
 			throw e;
 		} catch (Exception e) {
@@ -262,7 +279,6 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 		
 	}
 	
-
 	public void addEvent() {
 		if (event.getId() == null) {
 			eventModel.addEvent(event);
@@ -296,6 +312,7 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 		}
 		return response;
 	}
+	
 	/* ==========================================================================================================================
 	 * Schedule Event Listeners
 	 * ==========================================================================================================================*/
@@ -347,20 +364,32 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 	 * ==========================================================================================================================*/
 
 	public void createTypeDonutModel() {
-		typeDonutModel = new DonutChartModel();
-		ChartData data = new ChartData();
-
+		
+		typeDonutModel 			  = new DonutChartModel();
+		ChartData data 			  = new ChartData();
 		DonutChartDataSet dataSet = new DonutChartDataSet();
-		List<Number> values = new ArrayList<>();
-		List<String> bgColors = new ArrayList<>();
-		List<String> labels = new ArrayList<>();
+		List<Number> values 	  = new ArrayList<>();
+		List<String> bgColors 	  = new ArrayList<>();
+		List<String> labels  	  = new ArrayList<>();
 		
-		for (BillSummary billSummary : myBills) {
-			values.add(billSummary.getTotalBilled());
-			labels.add(billSummary.getCycleType());
-			bgColors.add(typeColorMap.get(billSummary.getCycleType()));
+		for (Entry<String, Map<Integer, List<BillSummary>>> entry : myBillsMap.entrySet()) {
+			
+			String cycleType = entry.getKey();
+			labels.add(cycleType);
+			
+			Map<Integer, List<BillSummary>> summariesMap = entry.getValue();
+			
+			for (Entry<Integer, List<BillSummary>> summaryEntry : summariesMap.entrySet()) {
+				List<BillSummary> summaries = summaryEntry.getValue();
+				
+				for (BillSummary billSummary : summaries) {
+					values.add(billSummary.getTotalBilled());
+				}
+			}
+			
+			bgColors.add(typeColorMap.get(cycleType));
 		}
-		
+	
 		dataSet.setData(values);
 		dataSet.setBackgroundColor(bgColors);
 		data.addChartDataSet(dataSet);
@@ -422,28 +451,6 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 	
 	private void addMessage(FacesMessage message) {
 		FacesContext.getCurrentInstance().addMessage(null, message);
-	}
-	
-	private void validateStringField(boolean required, int max, int min, String name, String value) throws ApplicationException{
-		
-		if (required && StringUtils.isBlank(value)) {
-			throw new ApplicationException(name + " is a required field.");
-		}
-		
-		boolean validateMax = max > 0;
-		boolean validateMin = min > 0;
-		
-		if (validateMax) {
-			if (value.length() > max) {
-				throw new ApplicationException(name + " max length is " + max);
-			}
-		}
-		
-		if (validateMin) {
-			if (value.length() < min) {
-				throw new ApplicationException(name + " min length is " + min);
-			}
-		}
 	}
 	
 	/* ==========================================================================================================================
