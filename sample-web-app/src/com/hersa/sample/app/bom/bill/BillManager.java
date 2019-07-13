@@ -28,6 +28,7 @@ public class BillManager extends AbstractBaseManager{
 		
 		try {
 			if (connection == null) {
+				local = true;
 				connection = getDefautlConnectionProvider().openConnection();
 			}
 			

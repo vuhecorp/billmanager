@@ -34,10 +34,8 @@ public class BillItemManager extends AbstractBaseManager{
 	}
 	
 	public void createBillItem(BillItem billItem, Connection external) throws ApplicationException {
-		
 		Connection connection = external;
 		boolean local 		  = false;
-		
 		try {
 			
 			if (connection == null) {
