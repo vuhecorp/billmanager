@@ -51,6 +51,11 @@ public class BillItemSummaryManager extends AbstractBaseManager {
 		template.setDayDue(calcDayDue(itemSummary));
 		template.setTimeDue(itemSummary.getTimeDue());
 		template.setPayTo(itemSummary.getPayTo());
+		template.setUsername(itemSummary.getUsername());
+		template.setCreatedBy(itemSummary.getCreatedBy());
+		template.setCreatedOn(itemSummary.getCreatedOn());
+		template.setModifiedBy(itemSummary.getModifiedBy());
+		template.setModifiedOn(itemSummary.getModifiedOn());
 		
 		return template;
 	}
@@ -80,6 +85,14 @@ public class BillItemSummaryManager extends AbstractBaseManager {
 		item.setPayTo(itemSummary.getPayTo());
 		item.setTypeCode(itemSummary.getTypeCode());
 		item.setRecurringCode(itemSummary.getRecurringCode());
+		item.setUsername(itemSummary.getUsername());
+		item.setCreatedBy(itemSummary.getCreatedBy());
+		item.setCreatedOn(itemSummary.getCreatedOn());
+		item.setStatus(itemSummary.getStatus());
+		item.setStatusDate(itemSummary.getStatusDate());
+		item.setModifiedBy(itemSummary.getModifiedBy());
+		item.setModifiedOn(itemSummary.getModifiedOn());
+		
 		return item;
 	}
 

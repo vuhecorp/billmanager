@@ -53,7 +53,7 @@ class BillItemDAOImpl extends AbstractDAImpl implements BillItemDAO {
       return sql;
 }
   protected String getInsertSQL(){
-      String sql = " INSERT INTO " + getTable() + " ( ACTIVE, AMOUNT, BILL_ID, CREATED_BY, CREATED_ON, DATE_DUE, DAY, DESCRIPTION, ENTITY_CODE, MODIFIED_BY, MODIFIED_ON, MONTH, NAME, PAY_TO, RECURRING_CODE, STATUS, STATUS_DATE, TEMPLATE_ID, TIME_DUE, TYPE_CODE, USERNAME, WEEK, YEAR, ACTIVE, AMOUNT, BILL_ID, CREATED_BY, CREATED_ON, DATE_DUE, DAY, DESCRIPTION, ENTITY_CODE, ID, MODIFIED_BY, MODIFIED_ON, MONTH, NAME, PAY_TO, RECURRING_CODE, STATUS, STATUS_DATE, TEMPLATE_ID, TIME_DUE, TYPE_CODE, USERNAME, WEEK, YEAR ) VALUES  ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+      String sql = " INSERT INTO " + getTable() + " ( ACTIVE, AMOUNT, BILL_ID, CREATED_BY, CREATED_ON, DATE_DUE, DAY, DESCRIPTION, ENTITY_CODE, MODIFIED_BY, MODIFIED_ON, MONTH, NAME, PAY_TO, RECURRING_CODE, STATUS, STATUS_DATE, TEMPLATE_ID, TIME_DUE, TYPE_CODE, USERNAME, WEEK, YEAR ) VALUES  ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
       return sql;
 }
   protected String getUpdateSQL(){
@@ -1199,7 +1199,7 @@ public final int countBillItem(String whereClause, Object[] whereParams, int[] p
              if (isSQLConstraintViolated(e)) {     
                  throw new BillItemCreateException(e.getMessage(), e);     
              }     
-            try { 	throw new DAOException(e.getMessage(), e);  } catch (DAOException e1) { 	e1.printStackTrace(); }     
+             throw new BillItemCreateException(e.getMessage(), e);  
          } finally {     
              if (stmt != null) {     
                  try {     
@@ -1208,7 +1208,10 @@ public final int countBillItem(String whereClause, Object[] whereParams, int[] p
                      logSQLException(e);     
                  }     
              }     
-             closeConnection(con);     
+             if (!connectionSetByCaller) {
+            	 closeConnection(con);
+             }
+                  
          }     
          if (logger.isEnabledFor(Level.TRACE)) {     
              logger.trace("<< createBillItem()");     

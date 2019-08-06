@@ -1046,7 +1046,7 @@ public void retrieveBlobDataByPK(String columnName, long _Id, DAOStreamReader re
              if (isSQLConstraintViolated(e)) {     
                  throw new BillCreateException(e.getMessage(), e);     
              }     
-            try { 	throw new DAOException(e.getMessage(), e);  } catch (DAOException e1) { 	e1.printStackTrace(); }     
+             throw new BillCreateException(e.getMessage(), e);    
          } finally {     
              if (stmt != null) {     
                  try {     
@@ -1054,8 +1054,10 @@ public void retrieveBlobDataByPK(String columnName, long _Id, DAOStreamReader re
                  } catch (SQLException e) {     
                      logSQLException(e);     
                  }     
-             }     
-             closeConnection(con);     
+             }    
+             if (!connectionSetByCaller) {
+            	 closeConnection(con); 
+             }
          }     
          if (logger.isEnabledFor(Level.TRACE)) {     
              logger.trace("<< createBill()");     

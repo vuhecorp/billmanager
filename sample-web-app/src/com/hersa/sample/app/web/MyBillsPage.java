@@ -39,6 +39,7 @@ import com.hersa.sample.app.bom.billsummary.BillSummary;
 import com.hersa.sample.app.bom.billsummary.BillSummaryManager;
 import com.hersa.sample.app.schedule.BillScheduleEvent;
 import com.hersa.sample.app.schedule.LazyBillScheduleModel;
+import com.hersa.sample.app.utils.BillManagerUtility;
 import com.hersa.sample.app.utils.BillManagerUtils;
 
 @ManagedBean
@@ -51,9 +52,7 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 	
 	private static final long serialVersionUID = -2635878856409734237L;
 	
-	public static final String PARAM_CREATE_BILL_TEMPLATE = "bill.template.obj";
-	public static final String PARAM_CREATE_BILL_ITEM     = "bill.item.obj";
-	public static final String PARAM_CREATE_BILL_SUMMARY  = "bill.summary.obj";
+
 	
 	private List<BillSummary> myBills;
 	private Map<String, Map<Integer, List<BillSummary>>> myBillsMap;
@@ -168,21 +167,33 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 	 */
 	private Map<String, Object> onBeforeUpdateSchedule() throws ApplicationException{
 		
+		Date today = new Date();
+		
 		//place objects in param map. we need to access these in the create method
 		//in order to transaction the create statements.
 		Map<String, Object> createBillItemParams = new HashMap<String, Object>();
 		BillItemSummary itemSummary  		     = event.getBillItemSummary();
 		
+		//init fields
+		itemSummary.setActive(1);
+		itemSummary.setModifiedBy(sessionUser.getUserName());
+		itemSummary.setModifiedOn(today);
+		itemSummary.setStatus("DUE");
+		itemSummary.setStatusDate(today);
+		itemSummary.setUsername(sessionUser.getUserName());
+		itemSummary.setCreatedBy(sessionUser.getUserName());
+		itemSummary.setCreatedOn(today);
+		
 		//if the user specified recurring, we need to create a new template
 		//for this bill item.
 		if(itemSummary.isRecurring()) {
 			BillItemTemplate billTemplateItem = BillItemSummaryManager.convertToTemplate(itemSummary);
-			createBillItemParams.put(PARAM_CREATE_BILL_TEMPLATE, billTemplateItem);
+			createBillItemParams.put(BillManagerUtility.PARAM_CREATE_BILL_TEMPLATE, billTemplateItem);
 		}
 		
 		//convert the item summary to a BillItem object. 
 		BillItem billItem = BillItemSummaryManager.convertToBillItem(itemSummary);
-		createBillItemParams.put(PARAM_CREATE_BILL_ITEM, billItem);
+		createBillItemParams.put(BillManagerUtility.PARAM_CREATE_BILL_ITEM, billItem);
 		
 		//set required fields
 		setDueDateFields(billItem);
@@ -198,9 +209,16 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 	 * @param createParams 
 	 * @throws ApplicationException
 	 */
-	private void onUpdateSchedule(Map<String, Object> createParams) throws ApplicationException{
-		// TODO Auto-generated method stub
-		
+	private void onUpdateSchedule(Map<String, Object> params) throws ApplicationException{
+		try {
+			BillManagerUtility bmu = new BillManagerUtility();
+			bmu.createNewBillItem(params);
+		} catch (ApplicationException e) {
+			throw e;
+		} catch (Exception e) {
+			e.printStackTrace();
+			throw new ApplicationException("An unexpected error occurred while creating bill item.");
+		} 
 	}
 	
 	/**
@@ -242,7 +260,7 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 	 */
 	private void verifyCurrentBillCycle(Map<String, Object> createBillItemParams) throws ApplicationException{
 		
-		BillItem billItem 	= (BillItem) createBillItemParams.get(PARAM_CREATE_BILL_ITEM);
+		BillItem billItem 	= (BillItem) createBillItemParams.get(BillManagerUtility.PARAM_CREATE_BILL_ITEM);
 		String mapKey     	= billItem.getRecurringCode();
 		Bill bill = null;
 		try {
@@ -262,13 +280,15 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 			
 			if (summaries != null && !summaries.isEmpty()) {
 				bill = BillManager.convertSummaryToBill(summaries.get(0));  
-				createBillItemParams.put(PARAM_CREATE_BILL_SUMMARY, bill);
+
+				// if bill item exists populate the bill id
+				billItem.setBillId(bill.getId());
 				return;
 			}
 			
 			//no bill cycle exists. initialize and return. 
 			bill = BillManager.initBillFromItem(billItem);
-			createBillItemParams.put(PARAM_CREATE_BILL_SUMMARY, bill);
+			createBillItemParams.put(BillManagerUtility.PARAM_CREATE_BILL, bill);
 			
 		} catch(ApplicationException e) {
 			throw e;

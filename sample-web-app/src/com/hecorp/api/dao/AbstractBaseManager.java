@@ -44,6 +44,15 @@ public class AbstractBaseManager {
 		}
 	}
 	
+	public void rollback(Connection connection) {
+		try {
+			connection.rollback();
+		} catch (SQLException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+	}
+	
 	public ConnectionProvider getDefautlConnectionProvider() {
 		ConnectionProvider factory = new DefaultConnectionProvider(JNDI.EBILLING);
 		return factory;

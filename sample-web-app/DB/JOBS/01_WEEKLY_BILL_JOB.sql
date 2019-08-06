@@ -34,7 +34,7 @@ INSERT INTO BILL (
          , CURRENT TIMESTAMP
          , USERNAME
          , CURRENT TIMESTAMP
-         , 'INSTALL'
+         , 'JOB'
          , CURRENT TIMESTAMP
          , 'INSTALL'
          FROM  V_BILL_TEMPLATE_TYPE 
