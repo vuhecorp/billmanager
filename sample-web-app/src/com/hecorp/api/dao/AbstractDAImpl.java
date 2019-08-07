@@ -12,13 +12,9 @@
  * ===========================================================================  
  */  
 package com.hecorp.api.dao;
-  import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
-import java.sql.Connection;
+  import java.sql.Connection;
 import java.sql.ResultSet;
 import java.sql.SQLException;
-import java.sql.Types;
 import java.text.MessageFormat;
 
 import org.apache.log4j.Level;

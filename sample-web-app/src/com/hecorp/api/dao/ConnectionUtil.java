@@ -29,9 +29,12 @@ import org.apache.log4j.Logger;
 import com.hersa.sample.app.db.ConnectionProvider;
  
 public class ConnectionUtil {
-
+	
+	@SuppressWarnings("unused")
     private static final String LOOKUP_CONNECTION_TEST_SQL = "java:comp/env/connectionTestSQL";
-    private static final String LOOKUP_CONNECTION_RETRY_COUNT = "java:comp/env/connectionRetryCount";
+    @SuppressWarnings("unused")
+	private static final String LOOKUP_CONNECTION_RETRY_COUNT = "java:comp/env/connectionRetryCount";
+    @SuppressWarnings("unused")
     private static final String LOOKUP_CONNECTION_RETRY_DELAY = "java:comp/env/connectionRetryDelay";
     
     private final static Logger logger = Logger.getLogger(ConnectionUtil.class);
@@ -99,7 +102,8 @@ public class ConnectionUtil {
     } 
     /*** Internal functions below *****/
     
-    private static Connection openConnection_Internal(boolean external) {
+    @SuppressWarnings("unused")
+	private static Connection openConnection_Internal(boolean external) {
         String ds = getDefaultJndiDataSourceName(external);
         return openConnection_Internal(ds);        
     }
@@ -202,7 +206,8 @@ public class ConnectionUtil {
     
 
 
-    private static Connection testConnection(Connection con) throws Exception{  
+    @SuppressWarnings("unused")
+	private static Connection testConnection(Connection con) throws Exception{  
       
     //        if ((Math.random() * 100) >= 30 ) {  
     //            throw new Exception("Forced Random Connection Failure.");  
@@ -213,6 +218,7 @@ public class ConnectionUtil {
            PreparedStatement stmt = con.prepareStatement(sql);  
            ResultSet rs = stmt.executeQuery();  
        }  
+         
        return con;  
     }  
 }
