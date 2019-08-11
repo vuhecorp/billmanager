@@ -5,7 +5,28 @@
   table. 
 
   Related: MONTHLY_TRIGGER
+
+  Notes: First, run the update job. The update job will catch any 
+         Bills created directly by the user, and create all remaining bill items.
+         Second, Run THIS create job, this job should exclude any bills that have been 
+         created for the specified bill cycle (start - end dates), the bill items for those will 
+         have been created by the UPDATE job. 
 */
+
+-- UPDATE ANY BILLS THAT HAVE BEEN DIRECTLY CREATED BY THE USER BEFORE THIS JOB RUNS --
+
+  MERGE INTO BILL
+  USING (
+    SELECT * FROM V_CREATED_BILL WHERE RECURRING_CODE = 'MONTH'
+    ) CREATED
+  ON BILL.USERNAME = CREATED.USERNAME
+  WHEN MATCHED AND BILL.CYCLE_TYPE = 'MONTH' THEN
+     UPDATE SET
+          BILL.MODIFIED_BY = 'MONTHLY JOB'
+        , BILL.MODIFIED_ON = CURRENT TIMESTAMP;
+
+--CREATE ALL BILL PENDING CREATION --
+
 INSERT INTO BILL (
       CYCLE_TYPE
     , YEAR
@@ -29,8 +50,9 @@ INSERT INTO BILL (
          , CURRENT TIMESTAMP
          , USERNAME
          , CURRENT TIMESTAMP
-         , 'JOB'
+         , 'MONTHLY JOB'
          , CURRENT TIMESTAMP
-         , 'INSTALL'
-         FROM  V_BILL_TEMPLATE_TYPE 
+         , 'MONTHLY JOB'
+         FROM  V_PENDING_BILL 
          WHERE RECURRING_CODE = 'MONTH';
+

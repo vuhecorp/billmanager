@@ -11,5 +11,5 @@
                 ON RCOD.CODE = TMP.RECURRING_CODE
             WHERE ACTIVE = 1
             GROUP BY 
-                TMP.USERNAME
+                  TMP.USERNAME
                 , RECURRING_CODE;
