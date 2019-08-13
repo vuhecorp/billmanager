@@ -4,10 +4,16 @@
       xmlns:p="http://primefaces.org/ui"
       xmlns:f="http://java.sun.com/jsf/core"
       xmlns:c="http://xmlns.jcp.org/jsp/jstl/core">
-		<p:dialog id="eventDetailsDlg"  widgetVar="eventDialog" showEffect="clip" hideEffect="clip" appendTo="@(body)">
-		 	<f:facet name="header">
-		       <h:outputText value="#{not empty myBillsPage.event.id ?  '' : 'New'} Bill Details"/>
-		    </f:facet>
-			<ui:include src="eventPanelGrid.xhtml"/>  
+      
+	<p:dialog id="eventDetailsDlg"  
+			  widgetVar="eventDialog" 
+			  showEffect="clip" 
+			  hideEffect="clip" 
+			  resizable="false"
+			  appendTo="@(body)">
+	 	<f:facet name="header">
+	       <h:outputText value="#{not empty myBillsPage.event.id ?  '' : 'New'} Bill Details"/>
+	    </f:facet>
+		<ui:include src="eventPanelGrid.xhtml"/>  
     </p:dialog>
 </html>

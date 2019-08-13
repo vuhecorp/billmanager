@@ -1,6 +1,6 @@
 /*
   Scheduled to run on a monthly basis to 
-  create the user's montly bills  as
+  create the user's monthly bills  as
   configured in the BILL_ITEM_TEMPLATE 
   table. 
 
