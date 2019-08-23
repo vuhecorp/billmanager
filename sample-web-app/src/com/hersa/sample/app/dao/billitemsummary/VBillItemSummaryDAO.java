@@ -108,6 +108,15 @@ public int countVBillItemSummaryByDescription(String _Description);
 
 
 
+public VBillItemSummaryDTO [] listVBillItemSummaryByDueOn(java.util.Date _DueOn); 
+public VBillItemSummaryDTO [] listVBillItemSummaryByDueOn(java.util.Date _DueOn, String orderByColumn); 
+public int countVBillItemSummaryByDueOn(java.util.Date _DueOn); 
+
+  public void deleteVBillItemSummaryByDueOn(java.util.Date _DueOn) throws VBillItemSummaryFinderException, VBillItemSummaryDeleteException; 
+
+
+
+
 public VBillItemSummaryDTO [] listVBillItemSummaryByEntityCode(String _EntityCode); 
 public VBillItemSummaryDTO [] listVBillItemSummaryByEntityCode(String _EntityCode, String orderByColumn); 
 public int countVBillItemSummaryByEntityCode(String _EntityCode); 
@@ -266,14 +275,6 @@ public VBillItemSummaryDTO [] listVBillItemSummaryByYear(int _Year, String order
 public int countVBillItemSummaryByYear(int _Year); 
 
   public void deleteVBillItemSummaryByYear(int _Year) throws VBillItemSummaryFinderException, VBillItemSummaryDeleteException; 
-
-
-
-
-
-
-
-
 
 
  /*************** end *****************/

@@ -16,6 +16,8 @@ public final class VBillItemSummaryDB   {
  
   public static final String ORDERBY_DESCRIPTION = "DESCRIPTION";    
  
+  public static final String ORDERBY_DUEON = "DUE_ON";    
+ 
   public static final String ORDERBY_ENTITYCODE = "ENTITY_CODE";    
  
   public static final String ORDERBY_ID = "ID";    
@@ -52,9 +54,6 @@ public final class VBillItemSummaryDB   {
  
   public static final String ORDERBY_YEAR = "YEAR";    
  
-
- 
-      
   private static final int DESC = 0;    
   private static final int ASC  = 1;    
   private String orderBys = ""; 

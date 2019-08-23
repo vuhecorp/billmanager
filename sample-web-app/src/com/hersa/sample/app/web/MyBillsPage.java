@@ -52,8 +52,6 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 	
 	private static final long serialVersionUID = -2635878856409734237L;
 	
-
-	
 	private List<BillSummary> myBills;
 	private Map<String, Map<Integer, List<BillSummary>>> myBillsMap;
 	

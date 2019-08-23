@@ -34,6 +34,8 @@ private int _Day;
 
 private String _Description;
 
+private java.util.Date _DueOn;
+
 private String _EntityCode;
 
 private long _Id;
@@ -69,6 +71,7 @@ private String _Username;
 private int _Week;
 
 private int _Year;
+
 
 
 
@@ -127,6 +130,13 @@ public String getDescription() {
 }
 public void setDescription(String value) { 
   _Description = value; 
+}
+
+public java.util.Date getDueOn() { 
+  return _DueOn; 
+}
+public void setDueOn(java.util.Date value) { 
+  _DueOn = value; 
 }
 
 public String getEntityCode() { 
@@ -256,7 +266,6 @@ public void setYear(int value) {
 }
 
 
-
 public String getInfo() {
  StringBuffer buf = new StringBuffer();
   buf.append("Active=" + _Active + "| "); 
@@ -267,6 +276,7 @@ public String getInfo() {
   buf.append("DateDue=" + _DateDue + "| "); 
   buf.append("Day=" + _Day + "| "); 
   buf.append("Description=" + _Description + "| "); 
+  buf.append("DueOn=" + _DueOn + "| "); 
   buf.append("EntityCode=" + _EntityCode + "| "); 
   buf.append("Id=" + _Id + "| "); 
   buf.append("ModifiedBy=" + _ModifiedBy + "| "); 
@@ -285,6 +295,5 @@ public String getInfo() {
   buf.append("Username=" + _Username + "| "); 
   buf.append("Week=" + _Week + "| "); 
   buf.append("Year=" + _Year + "| "); 
- 
   return buf.toString();  }}
 /***************** end *********************/ 

@@ -22,7 +22,7 @@ public class BillScheduleEvent extends DefaultScheduleEvent{
 	}
 	
 	public BillScheduleEvent(BillItemSummary billItemSummary) {
-		super(billItemSummary.getName(), billItemSummary.getDateDue(), billItemSummary.getDateDue(), billItemSummary);
+		super(billItemSummary.getName(), billItemSummary.getDueOn(), billItemSummary.getDueOn(), billItemSummary);
 		setStyleClass(billItemSummary.getTypeCode().toLowerCase() + "-event");
 		initialize();
 		this.billItemSummary = billItemSummary;

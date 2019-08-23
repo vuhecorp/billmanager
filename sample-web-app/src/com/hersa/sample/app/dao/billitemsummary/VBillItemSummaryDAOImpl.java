@@ -45,7 +45,7 @@ class VBillItemSummaryDAOImpl extends AbstractDAImpl implements VBillItemSummary
       this.tableName = table; 
 }
   protected String getSelectSQL(){
-      String sql = " SELECT ACTIVE, BILLED_AMOUNT, BILL_ID, CREATED_BY, CREATED_ON, DATE_DUE, DAY, DESCRIPTION, ENTITY_CODE, ID, MODIFIED_BY, MODIFIED_ON, MONTH, NAME, PAID_AMOUNT, PAY_TO, RECURRING, RECURRING_CODE, STATUS, STATUS_DATE, TEMPLATE_ID, TIME_DUE, TYPE_CODE, USERNAME, WEEK, YEAR, ACTIVE, BILLED_AMOUNT, BILL_ID, CREATED_BY, CREATED_ON, DATE_DUE, DAY, DESCRIPTION, ENTITY_CODE, ID, MODIFIED_BY, MODIFIED_ON, MONTH, NAME, PAID_AMOUNT, PAY_TO, RECURRING, RECURRING_CODE, STATUS, STATUS_DATE, TEMPLATE_ID, TIME_DUE, TYPE_CODE, USERNAME, WEEK, YEAR FROM " + getTable() + " " ;
+      String sql = " SELECT ACTIVE, BILLED_AMOUNT, BILL_ID, CREATED_BY, CREATED_ON, DATE_DUE, DAY, DESCRIPTION, DUE_ON, ENTITY_CODE, ID, MODIFIED_BY, MODIFIED_ON, MONTH, NAME, PAID_AMOUNT, PAY_TO, RECURRING, RECURRING_CODE, STATUS, STATUS_DATE, TEMPLATE_ID, TIME_DUE, TYPE_CODE, USERNAME, WEEK, YEAR FROM " + getTable() + " " ;
       return sql;
 }
   protected String getSelectCountSQL(){
@@ -53,15 +53,15 @@ class VBillItemSummaryDAOImpl extends AbstractDAImpl implements VBillItemSummary
       return sql;
 }
   protected String getInsertSQL(){
-      String sql = " INSERT INTO " + getTable() + " ( ACTIVE, BILLED_AMOUNT, BILL_ID, CREATED_BY, CREATED_ON, DATE_DUE, DAY, DESCRIPTION, ENTITY_CODE, ID, MODIFIED_BY, MODIFIED_ON, MONTH, NAME, PAID_AMOUNT, PAY_TO, RECURRING, RECURRING_CODE, STATUS, STATUS_DATE, TEMPLATE_ID, TIME_DUE, TYPE_CODE, USERNAME, WEEK, YEAR, ACTIVE, BILLED_AMOUNT, BILL_ID, CREATED_BY, CREATED_ON, DATE_DUE, DAY, DESCRIPTION, ENTITY_CODE, ID, MODIFIED_BY, MODIFIED_ON, MONTH, NAME, PAID_AMOUNT, PAY_TO, RECURRING, RECURRING_CODE, STATUS, STATUS_DATE, TEMPLATE_ID, TIME_DUE, TYPE_CODE, USERNAME, WEEK, YEAR ) VALUES  ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
+      String sql = " INSERT INTO " + getTable() + " ( ACTIVE, BILLED_AMOUNT, BILL_ID, CREATED_BY, CREATED_ON, DATE_DUE, DAY, DESCRIPTION, DUE_ON, ENTITY_CODE, ID, MODIFIED_BY, MODIFIED_ON, MONTH, NAME, PAID_AMOUNT, PAY_TO, RECURRING, RECURRING_CODE, STATUS, STATUS_DATE, TEMPLATE_ID, TIME_DUE, TYPE_CODE, USERNAME, WEEK, YEAR, ACTIVE, BILLED_AMOUNT, BILL_ID, CREATED_BY, CREATED_ON, DATE_DUE, DAY, DESCRIPTION, DUE_ON, ENTITY_CODE, ID, MODIFIED_BY, MODIFIED_ON, MONTH, NAME, PAID_AMOUNT, PAY_TO, RECURRING, RECURRING_CODE, STATUS, STATUS_DATE, TEMPLATE_ID, TIME_DUE, TYPE_CODE, USERNAME, WEEK, YEAR ) VALUES  ( ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ? )";
       return sql;
 }
   protected String getUpdateSQL(){
-      String sql = " UPDATE " + getTable() + " SET  ACTIVE = ? , BILLED_AMOUNT = ? , BILL_ID = ? , CREATED_BY = ? , CREATED_ON = ? , DATE_DUE = ? , DAY = ? , DESCRIPTION = ? , ENTITY_CODE = ? , ID = ? , MODIFIED_BY = ? , MODIFIED_ON = ? , MONTH = ? , NAME = ? , PAID_AMOUNT = ? , PAY_TO = ? , RECURRING = ? , RECURRING_CODE = ? , STATUS = ? , STATUS_DATE = ? , TEMPLATE_ID = ? , TIME_DUE = ? , TYPE_CODE = ? , USERNAME = ? , WEEK = ? , YEAR = ? , ACTIVE = ? , BILLED_AMOUNT = ? , BILL_ID = ? , CREATED_BY = ? , CREATED_ON = ? , DATE_DUE = ? , DAY = ? , DESCRIPTION = ? , ENTITY_CODE = ? , ID = ? , MODIFIED_BY = ? , MODIFIED_ON = ? , MONTH = ? , NAME = ? , PAID_AMOUNT = ? , PAY_TO = ? , RECURRING = ? , RECURRING_CODE = ? , STATUS = ? , STATUS_DATE = ? , TEMPLATE_ID = ? , TIME_DUE = ? , TYPE_CODE = ? , USERNAME = ? , WEEK = ? , YEAR = ?  WHERE ";
+      String sql = " UPDATE " + getTable() + " SET  ACTIVE = ? , BILLED_AMOUNT = ? , BILL_ID = ? , CREATED_BY = ? , CREATED_ON = ? , DATE_DUE = ? , DAY = ? , DESCRIPTION = ? , DUE_ON = ? , ENTITY_CODE = ? , ID = ? , MODIFIED_BY = ? , MODIFIED_ON = ? , MONTH = ? , NAME = ? , PAID_AMOUNT = ? , PAY_TO = ? , RECURRING = ? , RECURRING_CODE = ? , STATUS = ? , STATUS_DATE = ? , TEMPLATE_ID = ? , TIME_DUE = ? , TYPE_CODE = ? , USERNAME = ? , WEEK = ? , YEAR = ? , ACTIVE = ? , BILLED_AMOUNT = ? , BILL_ID = ? , CREATED_BY = ? , CREATED_ON = ? , DATE_DUE = ? , DAY = ? , DESCRIPTION = ? , DUE_ON = ? , ENTITY_CODE = ? , ID = ? , MODIFIED_BY = ? , MODIFIED_ON = ? , MONTH = ? , NAME = ? , PAID_AMOUNT = ? , PAY_TO = ? , RECURRING = ? , RECURRING_CODE = ? , STATUS = ? , STATUS_DATE = ? , TEMPLATE_ID = ? , TIME_DUE = ? , TYPE_CODE = ? , USERNAME = ? , WEEK = ? , YEAR = ?  WHERE ";
       return sql;
 }
   protected String getUpdateBlobsSQL(){
-      String sql = " UPDATE  " + getTable() + "  SET  ACTIVE = ? , BILLED_AMOUNT = ? , BILL_ID = ? , CREATED_BY = ? , CREATED_ON = ? , DATE_DUE = ? , DAY = ? , DESCRIPTION = ? , ENTITY_CODE = ? , ID = ? , MODIFIED_BY = ? , MODIFIED_ON = ? , MONTH = ? , NAME = ? , PAID_AMOUNT = ? , PAY_TO = ? , RECURRING = ? , RECURRING_CODE = ? , STATUS = ? , STATUS_DATE = ? , TEMPLATE_ID = ? , TIME_DUE = ? , TYPE_CODE = ? , USERNAME = ? , WEEK = ? , YEAR = ? , ACTIVE = ? , BILLED_AMOUNT = ? , BILL_ID = ? , CREATED_BY = ? , CREATED_ON = ? , DATE_DUE = ? , DAY = ? , DESCRIPTION = ? , ENTITY_CODE = ? , ID = ? , MODIFIED_BY = ? , MODIFIED_ON = ? , MONTH = ? , NAME = ? , PAID_AMOUNT = ? , PAY_TO = ? , RECURRING = ? , RECURRING_CODE = ? , STATUS = ? , STATUS_DATE = ? , TEMPLATE_ID = ? , TIME_DUE = ? , TYPE_CODE = ? , USERNAME = ? , WEEK = ? , YEAR = ?  WHERE ";
+      String sql = " UPDATE  " + getTable() + "  SET  ACTIVE = ? , BILLED_AMOUNT = ? , BILL_ID = ? , CREATED_BY = ? , CREATED_ON = ? , DATE_DUE = ? , DAY = ? , DESCRIPTION = ? , DUE_ON = ? , ENTITY_CODE = ? , ID = ? , MODIFIED_BY = ? , MODIFIED_ON = ? , MONTH = ? , NAME = ? , PAID_AMOUNT = ? , PAY_TO = ? , RECURRING = ? , RECURRING_CODE = ? , STATUS = ? , STATUS_DATE = ? , TEMPLATE_ID = ? , TIME_DUE = ? , TYPE_CODE = ? , USERNAME = ? , WEEK = ? , YEAR = ? , ACTIVE = ? , BILLED_AMOUNT = ? , BILL_ID = ? , CREATED_BY = ? , CREATED_ON = ? , DATE_DUE = ? , DAY = ? , DESCRIPTION = ? , DUE_ON = ? , ENTITY_CODE = ? , ID = ? , MODIFIED_BY = ? , MODIFIED_ON = ? , MONTH = ? , NAME = ? , PAID_AMOUNT = ? , PAY_TO = ? , RECURRING = ? , RECURRING_CODE = ? , STATUS = ? , STATUS_DATE = ? , TEMPLATE_ID = ? , TIME_DUE = ? , TYPE_CODE = ? , USERNAME = ? , WEEK = ? , YEAR = ?  WHERE ";
       return sql;
 }
   protected String getDeleteSQL(){
@@ -612,6 +612,37 @@ public final int countVBillItemSummary(String whereClause, Object[] whereParams,
     int[] types = new int[1];   
     objs[0] = _Description;   
     types[0] = java.sql.Types.VARCHAR;   
+    return countVBillItemSummary(whereClause, objs, types); 
+ } 
+
+
+
+
+  public final VBillItemSummaryDTO [] listVBillItemSummaryByDueOn(java.util.Date _DueOn) { 
+     return listVBillItemSummaryByDueOn( _DueOn, null);     
+ } 
+
+  public final VBillItemSummaryDTO [] listVBillItemSummaryByDueOn(java.util.Date _DueOn, String orderByColumn) { 
+    String whereClause = " WHERE DUE_ON = ? ";       
+    Object[] objs = new Object[1];   
+    int[] types = new int[1];   
+    objs[0] = new java.sql.Timestamp(_DueOn.getTime());   
+    types[0] = java.sql.Types.TIMESTAMP;   
+    String order = "";   
+    if (orderByColumn != null && orderByColumn.trim().length() > 0) {  
+        order = " ORDER BY " + orderByColumn; 
+    } 
+     return listVBillItemSummary(whereClause, objs, types, order); 
+ } 
+
+
+
+  public final int countVBillItemSummaryByDueOn(java.util.Date _DueOn) { 
+    String whereClause = " WHERE DUE_ON = ? ";       
+    Object[] objs = new Object[1];   
+    int[] types = new int[1];   
+    objs[0] = new java.sql.Timestamp(_DueOn.getTime());   
+    types[0] = java.sql.Types.TIMESTAMP;   
     return countVBillItemSummary(whereClause, objs, types); 
  } 
 
@@ -1173,18 +1204,6 @@ public final int countVBillItemSummary(String whereClause, Object[] whereParams,
     return countVBillItemSummary(whereClause, objs, types); 
  } 
 
-
-
-
-  
-
-
-
-
-
-
-
-
   public final VBillItemSummaryDTO createVBillItemSummary(VBillItemSummaryDTO _VBillItemSummary)
     throws VBillItemSummaryCreateException {  
          if (logger.isEnabledFor(Level.TRACE)) {
@@ -1211,6 +1230,11 @@ public final int countVBillItemSummary(String whereClause, Object[] whereParams,
                   } 
                   stmt.setInt(i++, _VBillItemSummary.getDay()); 
                   stmt.setString(i++, _VBillItemSummary.getDescription()); 
+                  if (_VBillItemSummary.getDueOn() != null) { 
+                     stmt.setTimestamp(i++, new java.sql.Timestamp(_VBillItemSummary.getDueOn().getTime()) ); 
+                  } else {
+                     stmt.setNull(i++, java.sql.Types.TIMESTAMP); 
+                  } 
                   stmt.setString(i++, _VBillItemSummary.getEntityCode()); 
                   stmt.setLong(i++, _VBillItemSummary.getId()); 
                   stmt.setString(i++, _VBillItemSummary.getModifiedBy()); 
@@ -1241,7 +1265,6 @@ public final int countVBillItemSummary(String whereClause, Object[] whereParams,
                   stmt.setString(i++, _VBillItemSummary.getUsername()); 
                   stmt.setInt(i++, _VBillItemSummary.getWeek()); 
                   stmt.setInt(i++, _VBillItemSummary.getYear()); 
-                 
                  stmt.executeUpdate();     
          } catch (SQLException e) {     
              logSQLException(e);     
@@ -1291,6 +1314,11 @@ public final int countVBillItemSummary(String whereClause, Object[] whereParams,
              }
                   stmt.setInt(i++,  _VBillItemSummary.getDay() ); 
                   stmt.setString(i++,  _VBillItemSummary.getDescription() ); 
+             if (_VBillItemSummary.getDueOn() != null) { 
+                  stmt.setTimestamp(i++,  new java.sql.Timestamp(_VBillItemSummary.getDueOn().getTime()) ); 
+             } else { 
+                  stmt.setNull(i++, java.sql.Types.TIMESTAMP); 
+             }
                   stmt.setString(i++,  _VBillItemSummary.getEntityCode() ); 
                   stmt.setLong(i++,  _VBillItemSummary.getId() ); 
                   stmt.setString(i++,  _VBillItemSummary.getModifiedBy() ); 
@@ -1321,7 +1349,6 @@ public final int countVBillItemSummary(String whereClause, Object[] whereParams,
                   stmt.setString(i++,  _VBillItemSummary.getUsername() ); 
                   stmt.setInt(i++,  _VBillItemSummary.getWeek() ); 
                   stmt.setInt(i++,  _VBillItemSummary.getYear() ); 
-                
   /*** now set the criteria, PK values ***/ 
            int count = stmt.executeUpdate();        
            if (count == 0) {        
@@ -1521,6 +1548,18 @@ public final int countVBillItemSummary(String whereClause, Object[] whereParams,
     int[] types = new int[1];   
     objs[0] = _Description;   
     types[0] = java.sql.Types.VARCHAR;   
+    deleteVBillItemSummaryWhere(whereClause, objs, types); 
+ } 
+
+
+
+
+  public final void deleteVBillItemSummaryByDueOn(java.util.Date _DueOn) throws VBillItemSummaryFinderException, VBillItemSummaryDeleteException{ 
+    String whereClause = " WHERE DUE_ON = ? ";       
+    Object[] objs = new Object[1];   
+    int[] types = new int[1];   
+    objs[0] = new java.sql.Timestamp(_DueOn.getTime());   
+    types[0] = java.sql.Types.TIMESTAMP;   
     deleteVBillItemSummaryWhere(whereClause, objs, types); 
  } 
 
@@ -1740,13 +1779,6 @@ public final int countVBillItemSummary(String whereClause, Object[] whereParams,
     deleteVBillItemSummaryWhere(whereClause, objs, types); 
  } 
 
-
-
-
-  
-
-
-
 public final VBillItemSummaryDTO extractVBillItemSummary(ResultSet rs)       
     throws SQLException {  
          VBillItemSummaryDTO obj = new VBillItemSummaryDTO();          
@@ -1759,6 +1791,7 @@ public final VBillItemSummaryDTO extractVBillItemSummary(ResultSet rs)
          obj.setDateDue( rs.getTimestamp(i++) );       
          obj.setDay( rs.getInt(i++) );       
          obj.setDescription( rs.getString(i++) );       
+         obj.setDueOn( rs.getTimestamp(i++) );       
          obj.setEntityCode( rs.getString(i++) );       
          obj.setId( rs.getLong(i++) );       
          obj.setModifiedBy( rs.getString(i++) );       
@@ -1777,8 +1810,7 @@ public final VBillItemSummaryDTO extractVBillItemSummary(ResultSet rs)
          obj.setUsername( rs.getString(i++) );       
          obj.setWeek( rs.getInt(i++) );       
          obj.setYear( rs.getInt(i++) );       
-         
- return obj;  } 
+         return obj;  } 
 
 
  /*************** end *****************/

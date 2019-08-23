@@ -255,4 +255,11 @@ public class BillItemSummary implements BOM{
 		this.dto.setRecurring(recurring ? 1 : 0);
 	}
 
+	public Date getDueOn() {
+		return dto.getDueOn();
+	}
+
+	public void setDueOn(Date value) {
+		dto.setDueOn(value);
+	}
 }
