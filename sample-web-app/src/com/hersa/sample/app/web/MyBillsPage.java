@@ -393,18 +393,18 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 		for (Entry<String, Map<Integer, List<BillSummary>>> entry : myBillsMap.entrySet()) {
 			
 			String cycleType = entry.getKey();
-			labels.add(cycleType);
-			
 			Map<Integer, List<BillSummary>> summariesMap = entry.getValue();
+			BigDecimal total = BigDecimal.ZERO;
 			
 			for (Entry<Integer, List<BillSummary>> summaryEntry : summariesMap.entrySet()) {
 				List<BillSummary> summaries = summaryEntry.getValue();
-				
 				for (BillSummary billSummary : summaries) {
-					values.add(billSummary.getTotalBilled());
+					total = total.add(billSummary.getTotalBilled());
 				}
 			}
 			
+			labels.add(cycleType);
+			values.add(total);
 			bgColors.add(typeColorMap.get(cycleType));
 		}
 	

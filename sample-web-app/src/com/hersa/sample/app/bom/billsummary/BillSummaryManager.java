@@ -16,12 +16,11 @@ public class BillSummaryManager extends AbstractBaseManager{
 	}
 	
 	public List<BillSummary> retrieveBillSummariesByMonth(String userName , int month){
-		String whereClause = " WHERE USERNAME = ? AND MONTH = ?";
+		String whereClause = " WHERE USERNAME = ? AND MONTH = ? AND TOTAL_BILLED > 0";
 		Object[] whereParams = {userName, month};
 		int[] paramTypes = {Types.VARCHAR, Types.INTEGER};
 		String orderClause = " ORDER BY " + VBillSummaryDB.ORDERBY_STARTDATE + " ASC";
 		return convert(this.getBillSummaryDAO().listVBillSummary(whereClause, whereParams, paramTypes, orderClause));
-		
 	}
 	
 	public List<BillSummary> convert(VBillSummaryDTO[] dtos){
