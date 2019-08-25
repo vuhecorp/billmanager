@@ -22,14 +22,19 @@ public class LazyBillScheduleModel extends LazyScheduleModel {
 	private static final long serialVersionUID = -2095506456969060969L;
 	
 	private List<BillItemSummary> lazyBillItems = new ArrayList<BillItemSummary>();
-	
 	private MyBillsPage billsPage;
+	private Date start;
+	private Date end;
 	
 	public LazyBillScheduleModel(MyBillsPage billsPage) {
 		this.billsPage = billsPage;
 	}
 	
     public void loadEvents(Date start, Date end) {
+    	
+    	//re-use these to reload the events.
+    	this.start = start;
+    	this.end = end;
     	
     	System.err.println("LOADING : " + start + " " + end );
     	
@@ -59,5 +64,27 @@ public class LazyBillScheduleModel extends LazyScheduleModel {
 		
 		billsPage.loadMyBills(month);
     }
+    
+    /**
+     * Use after create, update or delete
+     */
+    public void reloadCurrentDateRange() {
+    	this.loadEvents(start, end);
+    }
+	public Date getStart() {
+		return start;
+	}
+
+	public void setStart(Date start) {
+		this.start = start;
+	}
+
+	public Date getEnd() {
+		return end;
+	}
+
+	public void setEnd(Date end) {
+		this.end = end;
+	}
   
 }

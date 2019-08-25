@@ -224,12 +224,14 @@ public class MyBillsPage extends AbstractFacesPage implements Serializable {
 	 * @throws ApplicationException
 	 */
 	private void onAfterUpdateSchedule() throws ApplicationException{
+		lazyEventModel.reloadCurrentDateRange();
 		addInfoMessage("Your new bill item has been successfully created.");
+		PrimeFaces.current().ajax().update("myBillForm");
 		PrimeFaces.current().executeScript("PF('eventDialog').hide();");
 	}
 	
 	/**
-	 * Determine recurring type date colums according to 
+	 * Determine recurring type date columns according to 
 	 * recurring type code. 
 	 * @param billItem
 	 */
